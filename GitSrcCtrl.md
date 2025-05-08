@@ -28,3 +28,10 @@ Note: Ensure your current branch is set to main before running this command
 git checkout -b "develop"
 ```
 
+## Create new File within Dev Branch
+Created this markdown file.
+
+## Push to Dev BRanch
+```bash
+git push --set-upstream origin develop
+```
