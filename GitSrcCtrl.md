@@ -145,4 +145,8 @@ git rebase origin/develop
 > ⚠️ Avoid rebasing shared branches — it rewrites history and can confuse collaborators.
 
 
-
+# Secret Message
+> Added to Dev Branch, not main
+```bash
+echo "Hello World"
+``` 
