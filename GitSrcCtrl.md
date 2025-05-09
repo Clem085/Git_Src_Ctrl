@@ -71,35 +71,66 @@ git push --set-upstream origin develop
 
 ## 🔀 Git: Merge vs Pull vs Rebase
 
-Understanding how Git integrates code from different branches is essential for managing a clean history. Here's a quick breakdown:
+Understanding how Git integrates code from different branches is essential for managing a clean and collaborative workflow. Here's a breakdown of how `merge`, `pull`, and `rebase` differ:
 
-| Command         | What It Does                                                                 | When to Use                                               |
-|-----------------|------------------------------------------------------------------------------|------------------------------------------------------------|
-| `git merge`     | Combines changes from one branch into another via a merge commit.            | Safe and easy. Use when integrating feature, release, or hotfix branches. |
-| `git pull`      | Fetches latest changes from remote and merges them into your current branch. | Use frequently to sync your branch with the remote (origin). |
-| `git rebase`    | Rewrites your commits to appear as if they were made after the latest base.  | Use to create a linear history before merging to `develop` or `main`. |
+| Command         | What It Does                                                                 | When to Use                                                                 |
+|-----------------|------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| `git merge`     | Combines changes from another branch into the current branch via a new merge commit. | Use when integrating features, releases, or hotfixes without rewriting history. |
+| `git pull`      | Equivalent to `git fetch` + `git merge` — pulls changes from the remote tracking branch into the current branch. | Use to stay up to date with the remote version of your current branch.      |
+| `git rebase`    | Reapplies your commits on top of another branch’s HEAD, creating a new, linear history. | Use to clean up history or replay your changes on the latest version of `develop` or `main`. |
+
+---
+
+### ❓ Does `git pull` only pull the remote version of the current branch?
+
+✅ **Yes** — by default, `git pull` only affects the branch you currently have checked out, and it only pulls from the **upstream tracking branch** (e.g., `origin/develop` if you're on `develop` and it’s tracking `origin/develop`).
+
+To check your current upstream tracking branch:
+
+```bash
+git status
+```
+
+It will show something like:
+
+```
+Your branch is up to date with 'origin/feature/mybranch'.
+```
+
+To pull changes from a different branch, use:
+
+```bash
+git pull origin branch-name
+```
+
+---
 
 ### 🔧 Examples
 
 ```bash
-# Merge 'feature/login' into 'develop'
+# Merge a completed feature branch into develop
 git checkout develop
 git merge feature/login
 
-# Pull latest remote changes into 'develop'
+# Pull latest remote changes into the current branch
 git checkout develop
 git pull
 
-# Rebase feature branch onto latest develop
+# Rebase your feature branch onto the latest develop
 git checkout feature/login
-git rebase develop
+git fetch
+git rebase origin/develop
 ```
+
+---
 
 ### 🧠 Tips
 
-- Use **merge** for clarity when working with a team — preserves context and branch history.
-- Use **rebase** to clean up your history *before* merging — makes it easier to follow linear progress.
-- Use **pull** regularly to stay up to date with remote changes.
+- ✅ **Use merge** to preserve all branch history (good for teams).
+- ✅ **Use rebase** to make your history linear and easier to follow.
+- ✅ **Use pull** frequently to stay up to date — just know it's merging behind the scenes.
 
-> 🔥 Avoid rebasing public branches that others are using — it rewrites history!
+> ⚠️ Avoid rebasing shared branches — it rewrites history and can confuse collaborators.
+
+
 
