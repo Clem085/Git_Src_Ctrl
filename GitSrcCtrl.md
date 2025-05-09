@@ -67,3 +67,15 @@ Created this markdown file.
 ```bash
 git push --set-upstream origin develop
 ```
+
+
+### Merging feature into develop
+## 1. Make sure you're on develop and up to date
+git checkout develop
+git pull origin develop
+
+## 2. Merge your feature branch with --no-ff to preserve history
+git merge --no-ff feature/my-feature -m "Merge feature/my-feature: Add user authentication"
+
+## 3. Push the result
+git push origin develop
