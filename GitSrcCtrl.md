@@ -146,3 +146,9 @@ git rebase origin/develop
 
 
 
+
+
+## Hotfix #2
+Last time I created a hotfix, I merged it incorrectly which destroyed the branches history
+
+This hotfix was based on the code in main, which does not include the secret dev message
