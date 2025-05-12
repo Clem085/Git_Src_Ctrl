@@ -47,6 +47,42 @@ This avoids `--set-upstream` every time you push a new branch.
 
 ## 🛠️ Core Workflow Commands (Fully Explained)
 
+### Create Tag
+
+Tags are used to label release versions on the `main` branch.
+
+```bash
+git tag -sa v1.0 -m "Initial Version Release"
+```
+
+**General Syntax:**
+
+```bash
+git tag -sa v<version> -m "Release Description"
+```
+
+### 🔴 **TODO:** Add info on our versioning semantics and rules
+
+**Proposed Versioning Format:**
+`v<major>.<minor>.<patch>`
+
+```
+Version:  MAJOR.MINOR.PATCH
+            ↑     ↑     ↑
+            │     │     └── Hotfix / Patch (urgent or critical fixes)
+            │     └──────── Minor (new features, non-breaking updates)
+            └────────────── Major (significant changes or merges from develop to main)
+```
+
+**Examples:**
+
+* `v1.0.0` — Initial release to `main`
+* `v1.2.0` — Added new features to develop, merged to main
+* `v1.2.1` — Hotfix applied directly to main
+
+> 🔎 **Note:** Versions are compared numerically (not as strings), so `v3.10.2` is newer than `v3.1.2`.
+> ✅ **Do not zero-pad** version numbers (e.g., use `v3.10.2`, not `v3.010.2`) — Git and SemVer treat `010` as `10`, but some tools may not.
+
 ### Create `develop` From `main`
 
 ```bash
