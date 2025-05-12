@@ -33,10 +33,10 @@ Following Git Flow:
 * `main` → Stable, production-ready code (only updated from `release/*` or `hotfix/*`)
 * `develop` → Integration branch for all features
 * `feature/*` → Short-lived branches for individual features (e.g., `feature/login-ui`)
-* `release/*` → Pre-release stabilization branches (e.g., `release/2.0.0`)
-* `hotfix/*` → Emergency fixes branched from `main` (e.g., `hotfix/2.0.1`)
+* `release/*` → Pre-release stabilization branches (e.g., `release/<version>`)
+* `hotfix/*` → Emergency fixes branched from `main` (e.g., `hotfix/<version>`)
 
-Tags like `v1.0.0`, `v1.1.0`, and `v2.0.0` mark official release points.
+Tags like `v1.0.0`, `v1.1.0`, and `v<version>` mark official release points.
 
 > 📝 **Note:** Each feature should be developed in a **separate branch** from `develop`. Feature branches follow the naming convention `feature/*`, where `*` is a brief, dash-separated description (e.g., `feature/export-csv`).
 
@@ -102,8 +102,9 @@ git commit -m "Normalize line endings using .gitattributes" # Commits normalized
 ---
 
 ## 🛠️ Core Workflow Commands (Fully Explained)
-
 ### Create Tag
+
+Tags are used to label release versions on the `main` branch.
 
 ```bash
 git tag -sa v1.0.0 -m "Initial Version Release" # Creates a signed annotated tag
@@ -112,6 +113,30 @@ git tag -sa v1.0.0 -m "Initial Version Release" # Creates a signed annotated tag
 ```bash
 git tag -sa v<version> -m "Release Description" # Template for future tags
 ```
+### 🔴 **TODO:** Add info on our versioning semantics and rules
+
+**Proposed Versioning Format:**
+`v<major>.<minor>.<patch>`
+
+```
+Version:  MAJOR.MINOR.PATCH
+            ↑     ↑     ↑
+            │     │     └── Hotfix / Patch (urgent or critical fixes)
+            │     └──────── Minor (new features, non-breaking updates)
+            └────────────── Major (significant changes or merges from develop to main)
+```
+
+**Examples:**
+
+* `v1.0.0` — Initial release to `main`
+* `v1.2.0` — New features from `develop`
+* `v1.2.1` — Hotfix applied to `main`
+
+> 🔎 **Note:** Versions are compared numerically (not as strings), so `v3.10.2` is newer than `v3.1.2`.
+
+> ✅ **Do not zero-pad** version numbers (e.g., use `v3.10.2`, not `v3.010.2`) — Git and SemVer treat `010` as `10`, but some tools may not.
+
+---
 
 ### Create `develop` From `main`
 
@@ -162,9 +187,13 @@ git merge --no-ff feature/my-feature -m "Merge feature/my-feature" # Merge featu
 ```bash
 git push # Pushes merged changes
 ```
+> If a feature is pushed to release or main, it should be tagged with a **MINOR** version number
+`v<major>.<minor>.<patch>`
 
 ### Start a Release Branch
+A new Release Branch should be created for each **MAJOR** version number.
 
+Version: `v<major>.<minor>.<patch>`
 ```bash
 git checkout develop # Start from develop
 ```
@@ -174,7 +203,7 @@ git pull origin develop # Update local develop
 ```
 
 ```bash
-git checkout -b release/2.0.0 # Create and switch to release branch
+git checkout -b release/<version> # Create and switch to release branch
 ```
 
 ### Finish the Release
@@ -184,11 +213,11 @@ git checkout main # Switch to main for final release merge
 ```
 
 ```bash
-git merge --no-ff release/2.0.0 -m "Release v2.0.0" # Merge release into main with history
+git merge --no-ff release/<version> -m "Release v<version>" # Merge release into main with history
 ```
 
 ```bash
-git tag -sa v2.0.0 -m "Tagging release v2.0.0" # Create signed tag
+git tag -sa v<version> -m "Tagging release v<version>" # Create signed tag
 ```
 
 ```bash
@@ -196,7 +225,7 @@ git push # Push main branch updates
 ```
 
 ```bash
-git push origin v2.0.0 # Push tag to remote
+git push origin v<version> # Push tag to remote
 ```
 
 ```bash
@@ -204,7 +233,7 @@ git checkout develop # Switch to develop
 ```
 
 ```bash
-git merge --no-ff release/2.0.0 -m "Merge release v2.0.0" # Merge release back to develop
+git merge --no-ff release/<version> -m "Merge release v<version>" # Merge release back to develop
 ```
 
 ```bash
@@ -212,14 +241,17 @@ git push # Push develop with merged release
 ```
 
 ```bash
-git branch -d release/2.0.0 # Delete local release branch
+git branch -d release/<version> # Delete local release branch
 ```
 
 ```bash
-git push origin --delete release/2.0.0 # Delete remote release branch
+git push origin --delete release/<version> # Delete remote release branch
 ```
 
 ### Creating a Hotfix Branch
+A new Hotfix Branch should be created for each **PATCH** version number.
+
+Version: `v<major>.<minor>.<patch>`
 
 ```bash
 git checkout main # Switch to main
@@ -230,7 +262,7 @@ git pull origin main # Sync latest main
 ```
 
 ```bash
-git checkout -b hotfix/2.0.1 # Create hotfix branch
+git checkout -b hotfix/<version> # Create hotfix branch
 ```
 
 ### Merge Hotfix into `main`, Tag It
@@ -240,11 +272,11 @@ git checkout main # Switch to main
 ```
 
 ```bash
-git merge --no-ff hotfix/2.0.1 -m "Apply hotfix v2.0.1" # Merge hotfix into main
+git merge --no-ff hotfix/<version> -m "Apply hotfix v<version>" # Merge hotfix into main
 ```
 
 ```bash
-git tag -sa v2.0.1 -m "Hotfix v2.0.1" # Tag hotfix version
+git tag -sa v<version> -m "Hotfix v<version>" # Tag hotfix version
 ```
 
 ```bash
@@ -252,7 +284,7 @@ git push # Push hotfix to remote
 ```
 
 ```bash
-git push origin v2.0.1 # Push hotfix tag
+git push origin v<version> # Push hotfix tag
 ```
 
 ### Merge Hotfix into `develop`
@@ -266,7 +298,7 @@ git pull origin develop # Update local develop
 ```
 
 ```bash
-git merge --no-ff hotfix/2.0.1 -m "Backport hotfix v2.0.1" # Merge hotfix into develop
+git merge --no-ff hotfix/<version> -m "Backport hotfix v<version>" # Merge hotfix into develop
 ```
 
 ```bash
@@ -276,17 +308,17 @@ git push # Push changes
 ### Clean Up Hotfix
 
 ```bash
-git branch -d hotfix/2.0.1 # Delete local hotfix branch
+git branch -d hotfix/<version> # Delete local hotfix branch
 ```
 
 ```bash
-git push origin --delete hotfix/2.0.1 # Delete remote hotfix branch
+git push origin --delete hotfix/<version> # Delete remote hotfix branch
 ```
 
 ### Syncing Hotfix with Latest Main Code
 
 ```bash
-git checkout hotfix/2.0.1 # Switch to hotfix
+git checkout hotfix/<version> # Switch to hotfix
 ```
 
 ```bash
