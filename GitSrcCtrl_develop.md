@@ -3,13 +3,11 @@
 ## 📚 Table of Contents
 
 * [🧭 Project Overview](#-project-overview)
-* [📁 Branch Structure Summary](#-branch-structure-summary)
+* [📁 Branch Structure Summary (from `git_graph.txt`)](#-branch-structure-summary-from-git_graphtxt)
 * [⚙️ Git Configuration](#️-git-configuration-recommended-for-team)
 * [🛠️ Core Workflow Commands](#️-core-workflow-commands-fully-explained)
 * [⚔️ Handling Merge Conflicts in VS Code](#️-handling-merge-conflicts-in-vs-code)
-* [🔁 Reverting a Pushed Commit (Safe Method)](#-reverting-a-pushed-commit-safe-method)
 * [🔀 Merge vs Pull vs Rebase Summary](#-merge-vs-pull-vs-rebase-summary)
-* [🧾 List All Branches in a Git Repository](#-list-all-branches-in-a-git-repository)
 * [📊 Visualizing Git History](#-visualizing-git-history)
 * [🧠 Best Practices & Lessons Learned](#-best-practices--lessons-learned)
 * [🧪 Practice Resources](#-practice-resources)
@@ -28,9 +26,10 @@ The objective is to teach:
 
 ---
 
-## 📁 Branch Structure Summary
+## 📁 Branch Structure Summary (from `git_graph.txt`)
 
 Following Git Flow:
+
 * `main` → Stable, production-ready code (only updated from `release/*` or `hotfix/*`)
 * `develop` → Integration branch for all features
 * `feature/*` → Short-lived branches for individual features (e.g., `feature/login-ui`)
@@ -40,7 +39,6 @@ Following Git Flow:
 Tags like `v1.0.0`, `v1.1.0`, and `v2.0.0` mark official release points.
 
 > 📝 **Note:** Each feature should be developed in a **separate branch** from `develop`. Feature branches follow the naming convention `feature/*`, where `*` is a brief, dash-separated description (e.g., `feature/export-csv`).
-
 
 ---
 
@@ -194,6 +192,7 @@ git checkout -b release/2.0.0 # Create and switch to release branch
 ```
 
 ### Maintain a Release Branch
+
 ```bash
 git add . # Stage all modified and new files
 ```
@@ -259,7 +258,7 @@ git pull origin main # Sync latest main
 ```
 
 ```bash
-git checkout -b hotfix/<version> # Create hotfix branch
+git checkout -b hotfix/2.0.1 # Create hotfix branch
 ```
 
 ### Maintain a Hotfix Branch
@@ -376,21 +375,8 @@ git add . # Stage resolved files
 git commit -m "Commit Message" # Commit merge resolution
 ```
 
-7. Push the result to remote repository:
-    ```bash
-    git push
-    ```
----
-## 🔁 Reverting a Pushed Commit (Safe Method)
+6. Push the result
 
-If you’ve already pushed to the remote and others may have pulled it, the safest way to undo changes is by **reverting** the commit:
-
-```bash
-git revert <commit-hash>
-git push
-```
-
-This creates a new commit that undoes the changes without modifying the existing history — ideal for shared branches.
 ---
 
 ## 🔀 Merge vs Pull vs Rebase Summary
@@ -400,29 +386,6 @@ This creates a new commit that undoes the changes without modifying the existing
 | `merge`  | Combines branches with a merge commit                 | Always use for features, releases, and hotfixes |
 | `pull`   | Shortcut for fetch + merge of current upstream branch | Keep local branch up to date                    |
 | `rebase` | Rewrites commits onto a new base (linear history)     | Use only on local/private feature branches      |
-
----
-## 🧾 List All Branches in a Git Repository
-
-To view all local branches:
-```bash
-git branch
-```
-
-To view all remote branches:
-```bash
-git branch -r
-```
-
-To view both local and remote branches:
-```bash
-git branch -a
-```
-
-To see branches with their last commit info:
-```bash
-git branch -vv
-```
 
 ---
 
