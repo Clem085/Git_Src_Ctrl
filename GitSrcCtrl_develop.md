@@ -3,13 +3,11 @@
 ## 📚 Table of Contents
 
 * [🧭 Project Overview](#-project-overview)
-* [📁 Branch Structure Summary](#-branch-structure-summary)
+* [📁 Branch Structure Summary (from `git_graph.txt`)](#-branch-structure-summary-from-git_graphtxt)
 * [⚙️ Git Configuration](#️-git-configuration-recommended-for-team)
 * [🛠️ Core Workflow Commands](#️-core-workflow-commands-fully-explained)
 * [⚔️ Handling Merge Conflicts in VS Code](#️-handling-merge-conflicts-in-vs-code)
-* [🔁 Reverting a Pushed Commit (Safe Method)](#-reverting-a-pushed-commit-safe-method)
 * [🔀 Merge vs Pull vs Rebase Summary](#-merge-vs-pull-vs-rebase-summary)
-* [🧾 List All Branches in a Git Repository](#-list-all-branches-in-a-git-repository)
 * [📊 Visualizing Git History](#-visualizing-git-history)
 * [🧠 Best Practices & Lessons Learned](#-best-practices--lessons-learned)
 * [🧪 Practice Resources](#-practice-resources)
@@ -28,9 +26,10 @@ The objective is to teach:
 
 ---
 
-## 📁 Branch Structure Summary
+## 📁 Branch Structure Summary (from `git_graph.txt`)
 
 Following Git Flow:
+
 * `main` → Stable, production-ready code (only updated from `release/*` or `hotfix/*`)
 * `develop` → Integration branch for all features
 * `feature/*` → Short-lived branches for individual features (e.g., `feature/login-ui`)
@@ -40,7 +39,6 @@ Following Git Flow:
 Tags like `v1.0.0`, `v1.1.0`, and `v2.0.0` mark official release points.
 
 > 📝 **Note:** Each feature should be developed in a **separate branch** from `develop`. Feature branches follow the naming convention `feature/*`, where `*` is a brief, dash-separated description (e.g., `feature/export-csv`).
-
 
 ---
 
@@ -194,6 +192,7 @@ git checkout -b release/2.0.0 # Create and switch to release branch
 ```
 
 ### Maintain a Release Branch
+
 ```bash
 git add . # Stage all modified and new files
 ```
@@ -259,7 +258,7 @@ git pull origin main # Sync latest main
 ```
 
 ```bash
-git checkout -b hotfix/<version> # Create hotfix branch
+git checkout -b hotfix/2.0.1 # Create hotfix branch
 ```
 
 ### Maintain a Hotfix Branch
@@ -356,39 +355,28 @@ git merge feature/my-feature # Attempt to merge feature
 
 2. VS Code highlights conflicted files
 3. Open files to resolve blocks:
-![VS Code Diff Merge Comparison](VSCodeDiff.png)
 
-4. Use the resolution buttons provided in the editor:
-    - **Accept Current Change** – Keeps the version from your current branch (`HEAD`).
-    - **Accept Incoming Change** – Uses the version from the branch you're merging in.
-    - **Accept Both Changes** – Keeps both versions, stacked one after the other.
-    - **Compare Changes** – Opens a side-by-side diff view to help you decide.
-
-5. Save and stage the resolved file:
-    ```bash
-    git add . # Stage resolved files
-    ```
-
-6. Commit the merge:
-    ```bash
-    git commit -m "Resolve merge conflict" # Finalize merge
-    ```
-
-7. Push the result to remote repository:
-    ```bash
-    git push
-    ```
----
-## 🔁 Reverting a Pushed Commit (Safe Method)
-
-If you’ve already pushed to the remote and others may have pulled it, the safest way to undo changes is by **reverting** the commit:
-
-```bash
-git revert <commit-hash>
-git push
+```
+<<<<<<< HEAD
+Your version
+=======
+Incoming version
+>>>>>>> feature/my-feature
 ```
 
-This creates a new commit that undoes the changes without modifying the existing history — ideal for shared branches.
+4. Use resolution buttons
+5. Save + stage:
+
+```bash
+git add . # Stage resolved files
+```
+
+```bash
+git commit -m "Commit Message" # Commit merge resolution
+```
+
+6. Push the result
+
 ---
 
 ## 🔀 Merge vs Pull vs Rebase Summary
@@ -398,29 +386,6 @@ This creates a new commit that undoes the changes without modifying the existing
 | `merge`  | Combines branches with a merge commit                 | Always use for features, releases, and hotfixes |
 | `pull`   | Shortcut for fetch + merge of current upstream branch | Keep local branch up to date                    |
 | `rebase` | Rewrites commits onto a new base (linear history)     | Use only on local/private feature branches      |
-
----
-## 🧾 List All Branches in a Git Repository
-
-To view all local branches:
-```bash
-git branch
-```
-
-To view all remote branches:
-```bash
-git branch -r
-```
-
-To view both local and remote branches:
-```bash
-git branch -a
-```
-
-To see branches with their last commit info:
-```bash
-git branch -vv
-```
 
 ---
 
@@ -433,33 +398,6 @@ git log --oneline --graph --all --decorate # Pretty git history visualization
 ```bash
 git log --oneline --graph --all --decorate > git_graph.txt # Save history view to file
 ```
----
-
-## 🔍 Git Graph (VS Code Extension)
-
-The **Git Graph** extension for VS Code provides a powerful visual interface to explore your Git repository’s history. It displays branches, merges, tags, and commit messages in a clean, interactive format.
-
-This graph helps validate whether Git Flow conventions—like release merges, tag placement, and hotfix branching—have been followed correctly.
-
-![Git Graph Extension](GitGraph.png)
-
-### ✅ Key Git Flow Confirmations:
-- `release/4.0.0` was created and used for staging commits (e.g., "Final Push for Release v4.0.0").
-- The release was merged into `main` and **tagged `v4.0.0`**, as required.
-- It was then merged back into `develop`, completing the release cycle.
-- The branch reference for `release/4.0.0` is deleted, but its history is preserved via merges.
-- Multiple hotfixes exist and are visible with tags (`v1.1`, `v2.0`) and a dedicated `hotfixes` branch.
-
-### ⚠️ Issues to Note:
-- **Hotfix Divergence**: 
-  The second hotfix (`added 2nd hotfix`) exists on the `hotfixes` branch and was merged into `main`, but **was not merged back into `develop`**.
-  - This breaks the Git Flow model, which requires hotfixes to be merged into both `main` and `develop` to prevent regressions.
-  - Consider creating a merge commit from `hotfixes` into `develop` to synchronize branches.
-
----
-
-### Recommendation:
-Regularly use Git Graph or `git log --oneline --graph --all --decorate` to audit your branching and merging practices. This ensures alignment with Git Flow and avoids lost fixes or duplicate work.
 
 ---
 
