@@ -72,6 +72,46 @@ git config --global push.autoSetupRemote true
 
 This avoids `--set-upstream` every time you push a new branch.
 
+### Git Line Ending Configuration (Cross-Platform)
+
+To ensure consistent line endings across Linux and Windows, we use a `.gitattributes` file in the repository root. This file defines how Git handles line endings for different file types, making behavior consistent across all platforms without requiring developers to change their Git configuration.
+
+**Add this `.gitattributes` file:**
+```bash
+# Use LF (Unix-style) endings for source code
+*.c     text eol=lf
+*.cpp   text eol=lf
+*.h     text eol=lf
+*.py    text eol=lf
+*.sh    text eol=lf
+*.md    text eol=lf
+*.txt   text eol=lf
+
+# Treat .git* files as text with LF
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+# Use CRLF for Windows batch files (optional, for compatibility)
+*.bat   text eol=crlf
+
+# Prevent Git from touching line endings for binary files
+*.jpg   binary
+*.jpeg  binary
+*.png   binary
+*.gif   binary
+*.pdf   binary
+*.zip   binary
+*.exe   binary
+```
+
+> 💡 This ensures line ending behavior is consistent across all systems and prevents binary corruption.
+
+Re-normalize line endings based on new rules
+```bash
+git add --renormalize .
+git commit -m "Normalize line endings using .gitattributes"
+```
+
 ---
 
 ## 🛠️ Core Workflow Commands (Fully Explained)
