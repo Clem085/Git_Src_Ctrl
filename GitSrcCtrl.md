@@ -389,6 +389,7 @@ git push
 ```
 
 This creates a new commit that undoes the changes without modifying the existing history — ideal for shared branches.
+
 ---
 
 ## 🔀 Merge vs Pull vs Rebase Summary
