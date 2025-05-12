@@ -389,17 +389,6 @@ git push
 ```
 
 This creates a new commit that undoes the changes without modifying the existing history — ideal for shared branches.
----
-## 🔁 Reverting a Pushed Commit (Safe Method)
-
-If you’ve already pushed to the remote and others may have pulled it, the safest way to undo changes is by **reverting** the commit:
-
-```bash
-git revert <commit-hash>
-git push
-```
-
-This creates a new commit that undoes the changes without modifying the existing history — ideal for shared branches.
 
 ---
 
