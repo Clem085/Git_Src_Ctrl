@@ -206,7 +206,7 @@ git pull origin develop # Update local develop
 git checkout -b release/<version> # Create and switch to release branch
 ```
 
-### Update Remote Release Branch
+### Maintain Release Branch
 ```bash
 git add . # Adds all new files to git tracking
 ```
