@@ -344,6 +344,7 @@ git merge origin/main --no-ff -m "Sync hotfix with main" # Merge main into hotfi
 git push # Push updated hotfix
 ```
 
+
 ---
 
 ## ⚔️ Handling Merge Conflicts in VS Code
