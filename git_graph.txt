@@ -1,11 +1,29 @@
-# Main Branch
-* af0ac87 (origin/develop, develop) Added command history list of relevant commands
-*   d7f6019 Merge hotfix 2 into dev, trying not to remove secret message
+*   0a2e8f9 (HEAD -> develop, origin/develop) Release v4.0.0
 |\  
-* | dd8974d added secret message to dev branch
-* |   4da3026 Although Identical, I want to pull deveopment from main again, since we did have an official release
+| | *   2565f6d (tag: v4.0.0, origin/main, origin/HEAD, main) Release v4.0.0
+| | |\  
+| | |/  
+| |/|   
+| * | cdbd176 Final Push for Release v4.0.0
+| * | 250a8be more small changes
+| * | 931cd39 Normalize line endings using .gitattributes
+| * | 8b9174e Made some small tweaks before release
+|/ /  
+* | 5740510 minor updates
+| *   bf340ad (tag: v3.0.0) Weekend Development is Over
+| |\  
+| |/  
+|/|   
+* | da0f130 GitSrcCtrl.md is looking pretty good. Meed to run through the commands to look for missing info or steps, but its really clean. Cheatsheet has not been verified at all, definetly review
+* | c2b04e5 Added resoruces to dev channel
+* | 92fb7de updated git graph txt file to use everythin referenced from main branch
+* | af0ac87 Added command history list of relevant commands
+* |   d7f6019 Merge hotfix 2 into dev, trying not to remove secret message
 |\ \  
-| | | * c3a655d (HEAD -> main, origin/main, origin/HEAD) Merge hotfix 2 into main
+* | | dd8974d added secret message to dev branch
+* | |   4da3026 Although Identical, I want to pull deveopment from main again, since we did have an official release
+|\ \ \  
+| | | * c3a655d Merge hotfix 2 into main
 | | |/| 
 | |/|/  
 | | * fde973a (origin/hotfixes, hotfixes) added 2nd hotfix
