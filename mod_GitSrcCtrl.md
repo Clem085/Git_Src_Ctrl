@@ -194,11 +194,11 @@ git tag -sa v2.0.0 -m "Tagging release v2.0.0"
 ```
 
 ```bash
-git push
+git push # Pushes Code from Local Commits to Remote Repo
 ```
 
 ```bash
-git push origin v2.0.0
+git push origin v2.0.0 # Pushes the Tag, which is not pushed by default push
 ```
 
 ```bash
@@ -214,6 +214,7 @@ git push
 ```
 
 ```bash
+# Deletes Release Branch
 git branch -d release/2.0.0
 ```
 
@@ -314,9 +315,17 @@ git merge feature/my-feature
 ```
 
 2. VS Code highlights conflicted files
-3. Open files and resolve blocks manually
-4. Use resolution buttons in VS Code
-5. Save, stage, and commit:
+3. Open files to resolve blocks:
+
+   ```
+   <<<<<<< HEAD
+   Your version
+   =======
+   Incoming version
+   >>>>>>> feature/my-feature
+   ```
+4. Use resolution buttons
+5. Save + stage:
 
 ```bash
 git add .
