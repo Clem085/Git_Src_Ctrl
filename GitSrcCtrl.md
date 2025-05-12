@@ -102,9 +102,8 @@ git commit -m "Normalize line endings using .gitattributes" # Commits normalized
 ---
 
 ## 🛠️ Core Workflow Commands (Fully Explained)
-### Create Tag
 
-Tags are used to label release versions on the `main` branch.
+### Create Tag
 
 ```bash
 git tag -sa v1.0.0 -m "Initial Version Release" # Creates a signed annotated tag
@@ -113,30 +112,6 @@ git tag -sa v1.0.0 -m "Initial Version Release" # Creates a signed annotated tag
 ```bash
 git tag -sa v<version> -m "Release Description" # Template for future tags
 ```
-### 🔴 **TODO:** Add info on our versioning semantics and rules
-
-**Proposed Versioning Format:**
-`v<major>.<minor>.<patch>`
-
-```
-Version:  MAJOR.MINOR.PATCH
-            ↑     ↑     ↑
-            │     │     └── Hotfix / Patch (urgent or critical fixes)
-            │     └──────── Minor (new features, non-breaking updates)
-            └────────────── Major (significant changes or merges from develop to main)
-```
-
-**Examples:**
-
-* `v1.0.0` — Initial release to `main`
-* `v1.2.0` — New features from `develop`
-* `v1.2.1` — Hotfix applied to `main`
-
-> 🔎 **Note:** Versions are compared numerically (not as strings), so `v3.10.2` is newer than `v3.1.2`.
-
-> ✅ **Do not zero-pad** version numbers (e.g., use `v3.10.2`, not `v3.010.2`) — Git and SemVer treat `010` as `10`, but some tools may not.
-
----
 
 ### Create `develop` From `main`
 
@@ -187,13 +162,9 @@ git merge --no-ff feature/my-feature -m "Merge feature/my-feature" # Merge featu
 ```bash
 git push # Pushes merged changes
 ```
-> If a feature is pushed to release or main, it should be tagged with a **MINOR** version number
-`v<major>.<minor>.<patch>`
 
 ### Start a Release Branch
-A new Release Branch should be created for each **MAJOR** version number.
 
-Version: `v<major>.<minor>.<patch>`
 ```bash
 git checkout develop # Start from develop
 ```
@@ -249,9 +220,6 @@ git push origin --delete release/<version> # Delete remote release branch
 ```
 
 ### Creating a Hotfix Branch
-A new Hotfix Branch should be created for each **PATCH** version number.
-
-Version: `v<major>.<minor>.<patch>`
 
 ```bash
 git checkout main # Switch to main
@@ -346,28 +314,26 @@ git merge feature/my-feature # Attempt to merge feature
 2. VS Code highlights conflicted files
 3. Open files to resolve blocks:
 
-![VS Code Diff Merge Comparison](VSCodeDiff.png)
+```
+<<<<<<< HEAD
+Your version
+=======
+Incoming version
+>>>>>>> feature/my-feature
+```
 
-4. Use the resolution buttons provided in the editor:
-    - **Accept Current Change** – Keeps the version from your current branch (`HEAD`).
-    - **Accept Incoming Change** – Uses the version from the branch you're merging in.
-    - **Accept Both Changes** – Keeps both versions, stacked one after the other.
-    - **Compare Changes** – Opens a side-by-side diff view to help you decide.
+4. Use resolution buttons
+5. Save + stage:
 
-5. Save and stage the resolved file:
-    ```bash
-    git add . # Stage resolved files
-    ```
+```bash
+git add . # Stage resolved files
+```
 
-6. Commit the merge:
-    ```bash
-    git commit -m "Resolve merge conflict" # Finalize merge
-    ```
+```bash
+git commit -m "Commit Message" # Commit merge resolution
+```
 
-7. Push the result to remote repository:
-    ```bash
-    git push
-    ```
+6. Push the result
 
 ---
 
@@ -392,33 +358,6 @@ git log --oneline --graph --all --decorate > git_graph.txt # Save history view t
 ```
 
 ---
-
-## 🔍 Git Graph (VS Code Extension)
-
-The **Git Graph** extension for VS Code provides a powerful visual interface to explore your Git repository’s history. It displays branches, merges, tags, and commit messages in a clean, interactive format.
-
-This graph helps validate whether Git Flow conventions—like release merges, tag placement, and hotfix branching—have been followed correctly.
-
-![Git Graph Extension](GitGraph.png)
-
-### ✅ Key Git Flow Confirmations:
-- `release/4.0.0` was created and used for staging commits (e.g., "Final Push for Release v4.0.0").
-- The release was merged into `main` and **tagged `v4.0.0`**, as required.
-- It was then merged back into `develop`, completing the release cycle.
-- The branch reference for `release/4.0.0` is deleted, but its history is preserved via merges.
-- Multiple hotfixes exist and are visible with tags (`v1.1`, `v2.0`) and a dedicated `hotfixes` branch.
-
-### ⚠️ Issues to Note:
-- **Hotfix Divergence**: 
-  The second hotfix (`added 2nd hotfix`) exists on the `hotfixes` branch and was merged into `main`, but **was not merged back into `develop`**.
-  - This breaks the Git Flow model, which requires hotfixes to be merged into both `main` and `develop` to prevent regressions.
-  - Consider creating a merge commit from `hotfixes` into `develop` to synchronize branches.
-
----
-
-### Recommendation:
-Regularly use Git Graph or `git log --oneline --graph --all --decorate` to audit your branching and merging practices. This ensures alignment with Git Flow and avoids lost fixes or duplicate work.
-
 
 ## 🧠 Best Practices & Lessons Learned
 
