@@ -48,6 +48,9 @@ Tags like `v1.0.0`, `v1.1.0`, and `v2.0.0` mark official release points.
 
 ```bash
 git config --global gpg.format ssh # Use SSH key for tag signing
+```
+
+```bash
 git config --global user.signingkey ~/.ssh/id_ed25519.pub # Sets your public key for tag signing
 ```
 
@@ -90,6 +93,9 @@ git config --global push.autoSetupRemote true # Auto-sets upstream when pushing 
 
 ```bash
 git add --renormalize . # Applies .gitattributes settings retroactively
+```
+
+```bash
 git commit -m "Normalize line endings using .gitattributes" # Commits normalized line endings
 ```
 
@@ -111,8 +117,17 @@ git tag -sa v<version> -m "Release Description" # Template for future tags
 
 ```bash
 git checkout main # Switches to main branch
+```
+
+```bash
 git pull origin main # Syncs with remote main branch
+```
+
+```bash
 git checkout -b develop # Creates and switches to new develop branch
+```
+
+```bash
 git push -u origin develop # Pushes develop and sets upstream
 ```
 
@@ -120,7 +135,13 @@ git push -u origin develop # Pushes develop and sets upstream
 
 ```bash
 git checkout develop # Switch to develop
+```
+
+```bash
 git pull origin develop # Ensure it’s up-to-date
+```
+
+```bash
 git checkout -b feature/my-feature # Create and switch to feature branch
 ```
 
@@ -128,8 +149,17 @@ git checkout -b feature/my-feature # Create and switch to feature branch
 
 ```bash
 git checkout develop # Switch to develop
+```
+
+```bash
 git pull origin develop # Update with latest changes
+```
+
+```bash
 git merge --no-ff feature/my-feature -m "Merge feature/my-feature" # Merge feature preserving history
+```
+
+```bash
 git push # Pushes merged changes
 ```
 
@@ -137,7 +167,13 @@ git push # Pushes merged changes
 
 ```bash
 git checkout develop # Start from develop
+```
+
+```bash
 git pull origin develop # Update local develop
+```
+
+```bash
 git checkout -b release/2.0.0 # Create and switch to release branch
 ```
 
@@ -145,20 +181,41 @@ git checkout -b release/2.0.0 # Create and switch to release branch
 
 ```bash
 git checkout main # Switch to main for final release merge
+```
+
+```bash
 git merge --no-ff release/2.0.0 -m "Release v2.0.0" # Merge release into main with history
+```
+
+```bash
 git tag -sa v2.0.0 -m "Tagging release v2.0.0" # Create signed tag
+```
+
+```bash
 git push # Push main branch updates
+```
+
+```bash
 git push origin v2.0.0 # Push tag to remote
 ```
 
 ```bash
 git checkout develop # Switch to develop
+```
+
+```bash
 git merge --no-ff release/2.0.0 -m "Merge release v2.0.0" # Merge release back to develop
+```
+
+```bash
 git push # Push develop with merged release
 ```
 
 ```bash
 git branch -d release/2.0.0 # Delete local release branch
+```
+
+```bash
 git push origin --delete release/2.0.0 # Delete remote release branch
 ```
 
@@ -166,7 +223,13 @@ git push origin --delete release/2.0.0 # Delete remote release branch
 
 ```bash
 git checkout main # Switch to main
+```
+
+```bash
 git pull origin main # Sync latest main
+```
+
+```bash
 git checkout -b hotfix/2.0.1 # Create hotfix branch
 ```
 
@@ -174,9 +237,21 @@ git checkout -b hotfix/2.0.1 # Create hotfix branch
 
 ```bash
 git checkout main # Switch to main
+```
+
+```bash
 git merge --no-ff hotfix/2.0.1 -m "Apply hotfix v2.0.1" # Merge hotfix into main
+```
+
+```bash
 git tag -sa v2.0.1 -m "Hotfix v2.0.1" # Tag hotfix version
+```
+
+```bash
 git push # Push hotfix to remote
+```
+
+```bash
 git push origin v2.0.1 # Push hotfix tag
 ```
 
@@ -184,8 +259,17 @@ git push origin v2.0.1 # Push hotfix tag
 
 ```bash
 git checkout develop # Switch to develop
+```
+
+```bash
 git pull origin develop # Update local develop
+```
+
+```bash
 git merge --no-ff hotfix/2.0.1 -m "Backport hotfix v2.0.1" # Merge hotfix into develop
+```
+
+```bash
 git push # Push changes
 ```
 
@@ -193,6 +277,9 @@ git push # Push changes
 
 ```bash
 git branch -d hotfix/2.0.1 # Delete local hotfix branch
+```
+
+```bash
 git push origin --delete hotfix/2.0.1 # Delete remote hotfix branch
 ```
 
@@ -200,8 +287,17 @@ git push origin --delete hotfix/2.0.1 # Delete remote hotfix branch
 
 ```bash
 git checkout hotfix/2.0.1 # Switch to hotfix
+```
+
+```bash
 git fetch origin # Get latest remote changes
+```
+
+```bash
 git merge origin/main --no-ff -m "Sync hotfix with main" # Merge main into hotfix
+```
+
+```bash
 git push # Push updated hotfix
 ```
 
@@ -218,18 +314,22 @@ git merge feature/my-feature # Attempt to merge feature
 2. VS Code highlights conflicted files
 3. Open files to resolve blocks:
 
-   ```
-   <<<<<<< HEAD
-   Your version
-   =======
-   Incoming version
-   >>>>>>> feature/my-feature
-   ```
+```
+<<<<<<< HEAD
+Your version
+=======
+Incoming version
+>>>>>>> feature/my-feature
+```
+
 4. Use resolution buttons
 5. Save + stage:
 
 ```bash
 git add . # Stage resolved files
+```
+
+```bash
 git commit -m "Commit Message" # Commit merge resolution
 ```
 
@@ -251,6 +351,9 @@ git commit -m "Commit Message" # Commit merge resolution
 
 ```bash
 git log --oneline --graph --all --decorate # Pretty git history visualization
+```
+
+```bash
 git log --oneline --graph --all --decorate > git_graph.txt # Save history view to file
 ```
 
