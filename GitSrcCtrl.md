@@ -7,6 +7,7 @@
 * [⚙️ Git Configuration](#️-git-configuration-recommended-for-team)
 * [🛠️ Core Workflow Commands](#️-core-workflow-commands-fully-explained)
 * [⚔️ Handling Merge Conflicts in VS Code](#️-handling-merge-conflicts-in-vs-code)
+* [🔁 Reverting a Pushed Commit (Safe Method)](#-reverting-a-pushed-commit-safe-method)
 * [🔀 Merge vs Pull vs Rebase Summary](#-merge-vs-pull-vs-rebase-summary)
 * [📊 Visualizing Git History](#-visualizing-git-history)
 * [🧠 Best Practices & Lessons Learned](#-best-practices--lessons-learned)
@@ -334,6 +335,18 @@ git commit -m "Commit Message" # Commit merge resolution
 ```
 
 6. Push the result
+
+---
+## 🔁 Reverting a Pushed Commit (Safe Method)
+
+If you’ve already pushed to the remote and others may have pulled it, the safest way to undo changes is by **reverting** the commit:
+
+```bash
+git revert <commit-hash>
+git push
+```
+
+This creates a new commit that undoes the changes without modifying the existing history — ideal for shared branches.
 
 ---
 
