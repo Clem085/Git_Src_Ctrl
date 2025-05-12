@@ -298,7 +298,7 @@ git push
 
 ```bash
 git add .
-git commit
+git commit -m "Commit Message"
 ```
 
 6. Push the result
