@@ -101,6 +101,12 @@ git add --renormalize . # Applies .gitattributes settings retroactively
 git commit -m "Normalize line endings using .gitattributes" # Commits normalized line endings
 ```
 
+### Change default Branch Name to **Main**
+By default, the main branch is **Master** when initialized locally with the command `git init`. The command below changes the default name from **Master** to **main**, which is the default name for most in most industry standards.
+
+```bash
+git config --global init.defaultBranch main
+```
 ---
 
 ## 🛠️ Core Workflow Commands (Fully Explained)
