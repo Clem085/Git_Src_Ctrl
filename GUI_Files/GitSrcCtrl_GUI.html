@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GitSrcCtrl_GUI.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="git-repository-setup--development-workflow-for-windows-br-using-gitlabs-git-extensions--https">Git Repository Setup &amp; Development Workflow for Windows <br> (Using GitLabs, Git Extensions &amp; HTTPS)</h1>
+<h1 id="%F0%9F%93%9A-table-of-contents">📚 Table of Contents</h1>
+<ul>
+<li>
+<p><a href="#applications-overview">Applications Overview</a></p>
+</li>
+<li>
+<p><a href="#installations">Installations</a></p>
+<ul>
+<li><a href="#install-vs-code">Install VS Code</a></li>
+<li><a href="#install-git-for-windows">Install Git for Windows</a></li>
+<li><a href="#install-git-extensions">Install Git Extensions</a></li>
+<li><a href="#install-gitlabs">Install GitLabs</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#configurations">Configurations</a></p>
+<ul>
+<li><a href="#configure-git">Configure Git</a></li>
+<li><a href="#configure-gitlabs">Configure GitLabs</a></li>
+<li><a href="#configure-git-extensions">Configure Git Extensions</a></li>
+<li><a href="#configure-vs-code">Configure VS Code</a></li>
+<li><a href="#configure-file-explorer">Configure File Explorer</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#introduction-to-gitlabsgit-extensions">Introduction to GitLabs/Git Extensions</a></p>
+<ul>
+<li><a href="#create-remote-repository-in-gitlabs">Create Remote Repository in GitLabs</a></li>
+<li><a href="#clone-remote-repository-in-git-extensions">Clone Remote Repository in Git Extensions</a></li>
+<li><a href="#edit-repository-with-vs-code">Edit Repository with VS Code</a></li>
+<li><a href="#commit--push-to-remote-repository-with-git-extensions">Commit &amp; Push to Remote Repository with Git Extensions</a></li>
+<li><a href="#renaming-a-repository-in-gitlab">Renaming a Repository in GitLab</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#general-git-gui-commands">General Git GUI Commands</a></p>
+<ul>
+<li><a href="#create-local-repository">Create Local Repository</a></li>
+<li><a href="#clone-remote-repo">Clone Remote Repo</a></li>
+<li><a href="#pull-all-remote-branches-to-local-repo">Pull All Remote Branches to Local Repo</a></li>
+<li><a href="#open-local-repository">Open Local Repository</a></li>
+<li><a href="#create-branch">Create Branch</a></li>
+<li><a href="#checkout-branch">Checkout Branch</a></li>
+<li><a href="#create-tag">Create Tag</a></li>
+<li><a href="#merge-branch">Merge Branch</a></li>
+<li><a href="#manage-merge-conflicts">Manage Merge Conflicts</a></li>
+<li><a href="#push-to-remote">Push to Remote</a></li>
+<li><a href="#delete-branch">Delete Branch</a></li>
+<li><a href="#diff-compare-branches">Diff Compare Branches</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#aegis-development-workflow">AEGIS Development Workflow</a></p>
+<ul>
+<li><a href="#git-flow-branch-summary-gui-based">Git Flow Branch Summary (GUI-Based)</a></li>
+<li><a href="#branch-naming-conventions">Branch Naming Conventions</a></li>
+<li><a href="#versioning-convention">Versioning Convention</a>
+<ul>
+<li><a href="#version-format">Version Format</a></li>
+<li><a href="#version-update-rules">Version Update Rules</a></li>
+</ul>
+</li>
+<li><a href="#tagging-convention">Tagging Convention</a>
+<ul>
+<li><a href="#tag-examples">Tag Examples</a></li>
+<li><a href="#where-tags-fit-in-git-flow">Where Tags Fit in Git Flow</a></li>
+</ul>
+</li>
+<li><a href="#main">main</a>
+<ul>
+<li><a href="#main-branch-creation">main Branch Creation</a></li>
+<li><a href="#main-branch-management">main Branch Management</a></li>
+<li><a href="#main-branch-deletion">main Branch Deletion</a></li>
+</ul>
+</li>
+<li><a href="#develop">develop</a>
+<ul>
+<li><a href="#develop-branch-creation">develop Branch Creation</a></li>
+<li><a href="#develop-branch-management">develop Branch Management</a></li>
+<li><a href="#develop-branch-deletion">develop Branch Deletion</a></li>
+</ul>
+</li>
+<li><a href="#feature">feature</a>
+<ul>
+<li><a href="#feature-branch-creation">feature Branch Creation</a></li>
+<li><a href="#feature-branch-management">feature Branch Management</a></li>
+<li><a href="#feature-branch-deletion">feature Branch Deletion</a></li>
+</ul>
+</li>
+<li><a href="#hardware">hardware</a>
+<ul>
+<li><a href="#hardware-branch-creation">hardware Branch Creation</a></li>
+<li><a href="#hardware-branch-management">hardware Branch Management</a></li>
+<li><a href="#hardware-branch-deletion">hardware Branch Deletion</a></li>
+</ul>
+</li>
+<li><a href="#release">release</a>
+<ul>
+<li><a href="#release-branch-creation">release Branch Creation</a></li>
+<li><a href="#release-branch-management">release Branch Management</a></li>
+<li><a href="#release-branch-deletion">release Branch Deletion</a></li>
+</ul>
+</li>
+<li><a href="#hotfix">hotfix</a>
+<ul>
+<li><a href="#hotfix-branch-creation">hotfix Branch Creation</a></li>
+<li><a href="#hotfix-branch-management">hotfix Branch Management</a></li>
+<li><a href="#hotfix-branch-deletion">hotfix Branch Deletion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#unsorted-mess">Unsorted Mess</a></p>
+<ul>
+<li><a href="#fix-specific-troubleshooting">Fix-Specific Troubleshooting</a></li>
+<li><a href="#advanced-git-knowledge">Advanced Git Knowledge</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#resources--references">Resources &amp; References</a></p>
+</li>
+</ul>
+<hr>
+<h1 id="applications-overview">Applications Overview</h1>
+<table>
+<thead>
+<tr>
+<th>Application</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git for Windows</td>
+<td>Backend Git System</td>
+</tr>
+<tr>
+<td>Git Extensions</td>
+<td>Graphical Git UI</td>
+</tr>
+<tr>
+<td>VS Code</td>
+<td>Code editing + Git Integration</td>
+</tr>
+<tr>
+<td>Git Credential Manager</td>
+<td>Secure token handling (installed with Git)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<!-- # 📚 Installations -->
+<h1 id="installations">Installations</h1>
+<p>Install all applications below in order to configure a development environment similar to mine.</p>
+<h2 id="install-vs-code">Install VS Code</h2>
+<ol>
+<li>
+<p>Download from <a href="https://code.visualstudio.com">https://code.visualstudio.com</a></p>
+</li>
+<li>
+<p>Click VSCodeUserSetup application to open and start download <br><img src="Screenshot 2025-06-11 091447.png" alt="alt text"></p>
+</li>
+<li>
+<p>Once open, click <code>I accept the agreement</code> then <code>Next</code> <br><img src="Screenshot 2025-06-11 091815.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select a destination location then <code>Next</code> <br><img src="Screenshot 2025-06-11 091910.png" alt="alt text"></p>
+</li>
+<li>
+<p>Click <code>Next</code> to continue setup <br><img src="Screenshot 2025-06-11 092055.png" alt="alt text"></p>
+</li>
+<li>
+<p>Make sure all boxes are checked, then click <code>Next</code> <br><img src="Screenshot 2025-06-11 092132.png" alt="alt text"></p>
+</li>
+<li>
+<p>Make sure everything is correct then click <code>Install</code> <br><img src="Screenshot 2025-06-11 092144.png" alt="alt text"><img src="Screenshot 2025-06-11 092152.png" alt="alt text"></p>
+</li>
+<li>
+<p>To finish installation click <code>Finish</code><br><img src="Screenshot 2025-06-11 092208.png" alt="alt text"></p>
+</li>
+</ol>
+<hr>
+<h2 id="install-git-for-windows">Install Git for Windows</h2>
+<h3 id="download-installation-file">Download Installation File</h3>
+<ol>
+<li>
+<p>Go to <a href="https://git-scm.com/downloads/win">git-scm.com</a> and download the latest Windows installer.</p>
+</li>
+<li>
+<p>Double-click the downloaded <code>.exe</code> file to launch the setup wizard.</p>
+</li>
+</ol>
+<h3 id="install-using-the-setup-wizard">Install using the Setup Wizard</h3>
+<ol start="3">
+<li>
+<p>Follow Installation Steps (Recommended Defaults):</p>
+</li>
+<li>
+<p>Click <code>Yes</code> if a <strong>User Account Control</strong> prompt appears.</p>
+<ul>
+<li>Note: This action may require administrator access. If you are not the administrator of your machine, you will have to get administrator approval. Typically, this means an admin will have to enter their credentials into a prompt that appears. <br> <img src="image-12.png" alt="alt text"></li>
+</ul>
+</li>
+<li>
+<p>Click <code>Next</code>. <br> <img src="image-13.png" alt="alt text"></p>
+</li>
+<li>
+<p>Accept default install path or specify a location. Click <code>Next</code> to proceed.</p>
+<ul>
+<li>If you do not use the default path, other applications may struggle to locate Git Extensions. Record the custom path to configure companion applications in the future. <br> <img src="image-14.png" alt="alt text"></li>
+</ul>
+</li>
+<li>
+<p>Select the following Components. Click <code>Next</code> when done. <br> <img src="image-15.png" alt="alt text"></p>
+</li>
+<li>
+<p>Click <code>Next</code> to continue. <br> <img src="image-16.png" alt="alt text"></p>
+</li>
+<li>
+<p>Choose Visual Studio Code as your preferred editor. <br> <img src="image-17.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select <code>Override the default branch name for new repositories</code> and ensure the specified name is <code>main</code>. Click <code>Next</code> to continue. <br> <img src="image-18.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select <code>Git from the command line and also from 3rd-party software</code> the click <code>Next</code>. <br> <img src="image-19.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select <code>Use bundled OpenSSH</code> and click <code>Next</code>. <br> <img src="image-20.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select <code>Use the native Windows Secure Channel library</code> and click <code>Next</code>. <br> <img src="image-21.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select <code>Checkout Windows-style, commit Unix-style line endings</code>. This helps ensure compatibility across both Windows and Unix Based Systems. Click <code>Next</code> to continue. <br> <img src="image-22.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select <code>Use MinTTY (the default terminal of MSYS2)</code>. Click <code>Next</code> to continue. <br> <img src="image-23.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select <code>Fast-forward or merge</code>. Click <code>Next</code> to continue. <br> <img src="image-24.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select <code>Git Credential Manager</code>. Click <code>Next</code> to continue. <br> <img src="image-25.png" alt="alt text"></p>
+</li>
+<li>
+<p>Ensure both <code>Enable file system caching</code> and <code>Enable symbolic links</code> is <strong>selected</strong>. Click <code>Next</code> to continue. <br> <img src="image-26.png" alt="alt text"></p>
+</li>
+<li>
+<p>When installation is complete, ensure <code>Launch Git Bash</code> is <strong>selected</strong> and <code>View Release Notes</code> is <strong>deselected</strong>. Next, click <code>Finish</code>. <br> <img src="image-27.png" alt="alt text"></p>
+</li>
+</ol>
+<hr>
+<h2 id="install-git-extensions">Install Git Extensions</h2>
+<h3 id="download-installation-file">Download Installation File</h3>
+<ol>
+<li>
+<p>Go to <a href="https://gitextensions.github.io/">gitextensions.github.io</a> to download Git Extensions.</p>
+</li>
+<li>
+<p>Click the blue <code>Download</code> button. <br> <img src="image-1.png" alt="alt text"></p>
+</li>
+<li>
+<p>On the GitHub Releases page, download only the <code>GitExtensions-x64-&lt;Version&gt;.msi</code> file. <br> <img src="image-2.png" alt="alt text"></p>
+</li>
+</ol>
+<h3 id="install-using-the-setup-wizard">Install using the Setup Wizard</h3>
+<ol start="4">
+<li>
+<p>Click <code>Next</code>. <br> <img src="image-3.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select <code>Install for all users</code>. Click <code>Next</code>. <br> <img src="image-4.png" alt="alt text"></p>
+</li>
+<li>
+<p>Accept default install path or specify a location. Click <code>Next</code> to proceed.</p>
+<ul>
+<li>If you do not use the default path, other applications may struggle to locate Git Extensions. Record the custom path to configure companion applications in the future.  <br> <img src="image-5.png" alt="alt text"></li>
+</ul>
+</li>
+<li>
+<p>Click <code>Next</code>. <br> <img src="image-6.png" alt="alt text"></p>
+</li>
+<li>
+<p>Deselect telemetry if preferred. <br> <img src="image-7.png" alt="alt text"></p>
+</li>
+<li>
+<p>Click <code>Install</code>. <br> <img src="image-8.png" alt="alt text"></p>
+</li>
+<li>
+<p>Click <code>Yes</code> if a <strong>User Account Control</strong> prompt appears.</p>
+<ul>
+<li>Note: This action may require administrator access. If you are not the administrator of your machine, you will have to get administrator approval. Typically, this means an admin will have to enter their credentials into a prompt that appears. <br> <img src="image-10.png" alt="alt text"></li>
+</ul>
+</li>
+<li>
+<p>When installation is complete click <code>Finish</code>. <br> <img src="image-9.png" alt="alt text"></p>
+</li>
+<li>
+<p>When opening for the first time, you'll be prompted to install <code>.NET</code>
+<br>a. Click <code>Download it now</code> <br><img src="Screenshot 2025-06-12 065546.png" alt="alt text">
+<br>b. You will be taken to the <code>.NET Installer</code> (it should download automatically but if it does not then click the <code>click here to download manually</code> link) <br><img src="Screenshot 2025-06-12 065611.png" alt="alt text">
+<br>c. Go to the location of your download (ex: downloads, documents, etc. ) in your <code>File Explorer</code> then double click on the <code>runtime application</code> to start the installation <br> <img src="Screenshot 2025-06-12 065638.png" alt="alt text">
+<br>d. When prompted, click <code>Install</code><br> <img src="Screenshot 2025-06-12 065704.png" alt="alt text"></p>
+</li>
+</ol>
+<hr>
+<h2 id="install-gitlabs">Install GitLabs</h2>
+<ol>
+<li><strong>Create a GitLabs account.</strong>
+<br>
+Unfortunately, my account was created over a year ago and I don't remember the process. Its also not possible for me to create a new account in order to document the process. Follow <a href="https://docs.gitlab.com/user/profile/account/create_accounts/">GitLab's official documentation</a> instead.</li>
+</ol>
+<hr>
+<h1 id="configurations">Configurations</h1>
+<h2 id="configure-git">Configure Git</h2>
+<ol>
+<li>Enter the following commands into <strong>Git BASH</strong></li>
+</ol>
+<ul>
+<li>Automatically Set Upstream for New Branches</li>
+</ul>
+<pre class="hljs"><code><div>git config --global push.autoSetupRemote <span class="hljs-literal">true</span> <span class="hljs-comment"># Auto-sets upstream when pushing new branches</span>
+</div></code></pre>
+<ul>
+<li>This ensures Git uses the Windows Credential Manager to save your GitLab login info.</li>
+</ul>
+<pre class="hljs"><code><div>git config --global credential.helper manager-core
+</div></code></pre>
+<p>This saves your login email to ensure that git knows who you are.</p>
+<pre class="hljs"><code><div>git config --global user.email <span class="hljs-string">"you@example.com"</span>
+<span class="hljs-comment"># Example:</span>
+<span class="hljs-comment"># git config --global user.email "csavugot@aegispower.com"</span>
+</div></code></pre>
+<p>This saves your login name to ensure that git knows who you are.</p>
+<pre class="hljs"><code><div>git config --global user.name <span class="hljs-string">"Your Name"</span>
+<span class="hljs-comment"># Example:</span>
+<span class="hljs-comment"># git config --global user.name "csavugot"</span>
+</div></code></pre>
+<ol start="2">
+<li>Close Git Bash, you won’t need it again.</li>
+</ol>
+<hr>
+<h2 id="configure-gitlabs">Configure GitLabs</h2>
+<h3 id="creating-a-personal-access-token-pat-on-gitlab">Creating a Personal Access Token (PAT) on GitLab</h3>
+<ol>
+<li>Go to Aegis' GitLab and sign in.</li>
+</ol>
+<!-- [GitLab.com](https://gitlab.com/) -->
+<p><a href="http://gitlab01.local/">AEGIS Gitlab Link</a>
+→ Click your <strong>User icon</strong> &gt; <code>Preferences</code> &gt; <code>Access Tokens</code></p>
+<ol start="2">
+<li>
+<p>Fill out:</p>
+<ul>
+<li><strong>Name</strong>: <code>GitExtensions</code> or something memorable</li>
+<li><strong>Scopes</strong>: <code>read_repository</code>, <code>write_repository</code></li>
+<li>(<strong>Optional</strong>) Set an expiration date</li>
+</ul>
+<blockquote>
+<p>Setting an expiration date means this token will no longer work after that date. After this date, you will have to create a new token and reconfigure software that depended on this token for managing remote repos. Only set an expiration date if you have a very good reason to.</p>
+</blockquote>
+</li>
+<li>
+<p>Click <strong>Create personal access token</strong>
+<br> <img src="image-33.png" alt="alt text"></p>
+</li>
+<li>
+<p>Copy the token now, you won’t see it again. I recommend saving this to a .txt file somewhere on your computer where you can find it later.
+<img src="image-34.png" alt="alt text"></p>
+</li>
+</ol>
+<h4 id="note-this-pat-is-required-for-clone-remote-repository-in-git-extensions-for-the-first-time">Note: this PAT is required for <a href="#clone-remote-repository-in-git-extensions">Clone Remote Repository in Git Extensions</a> for the first time.</h4>
+<hr>
+<h2 id="configure-git-extensions">Configure Git Extensions</h2>
+<ol>
+<li>
+<p>Launch Git Extensions. When launching for the first time, you will be asked to select an language. Select English by clicking on the UK Flag<br> <img src="image-28.png" alt="alt text"></p>
+</li>
+<li>
+<p>A dialog box asking for permission to collect telemetry data will appear. Click <code>No</code> to disable telemetry. <br> <img src="image-29.png" alt="alt text"></p>
+</li>
+<li>
+<p>Within Git Extensions → <code>Tools &gt; Settings &gt; Git &gt; Config</code> <br> <img src="image-30.png" alt="alt text"></p>
+</li>
+<li>
+<p>Set your identity:</p>
+</li>
+</ol>
+<!-- * User Name: `Your Name`
+* Email: `your_email@example.com`
+* USER: `Computer Username`
+![alt text](image-31.png) -->
+<!-- AEGIS Credentials -->
+<ul>
+<li>User Name: <code>csavugot</code></li>
+<li>Email: <code>csavugot@aegispower.com</code></li>
+<li>USER: <code>csavugot</code></li>
+</ul>
+<blockquote>
+<p><img src="Screenshot 2025-06-11 102222.png" alt="alt text"></p>
+</blockquote>
+<ol start="5">
+<li>Click <strong>Apply</strong></li>
+</ol>
+<blockquote>
+<p>This ensures your commits are linked to your GitLab identity.</p>
+</blockquote>
+<hr>
+<h2 id="configure-vs-code">Configure VS Code</h2>
+<h3 id="open-local-directory-in-vs-code">Open Local Directory in VS Code</h3>
+<ol>
+<li>
+<p>Once VS Code opens, click the <code>x</code> (boxed in yellow) to close out the <strong>welcome</strong> tab, if it opened automatically, <br><img src="Screenshot 2025-06-11 092335.png" alt="alt text"></p>
+</li>
+<li>
+<p>Click <code>File</code> in the top left corner, then <code>Open Folder</code> <br><img src="Screenshot 2025-06-11 092702-1.png" alt="alt text"></p>
+</li>
+<li>
+<p>Navigate to the folder that you want to open in File Explorer</p>
+</li>
+<li>
+<p>On the <code>Trust Authors</code> page click the check box then<code>Yes, I trust the authors</code> (both boxed in yellow) <br><img src="Screenshot 2025-06-11 092850.png" alt="alt text"></p>
+</li>
+</ol>
+<h3 id="setup-git-source-control-within-vs-code">Setup Git Source Control Within <strong>VS Code</strong></h3>
+<p>We have to configure source control for <strong>VS Code</strong> separately from Git Bash and Git Extensions.</p>
+<ol>
+<li>
+<p>Open <strong>TERMINAL</strong> by pressing <code>Ctrl</code> + <code>`</code> followed by clicking <code>TERMINAL</code> on the bottom banner that opens</p>
+</li>
+<li>
+<p>Enter the commands found in <a href="#configure-git">Configure Git</a>, this time into <strong>PS</strong> (Powershell) instead of <strong>Git Bash</strong>
+<img src="image-90.png" alt="alt text"></p>
+</li>
+</ol>
+<h2 id="alt-textimage-89png"><!-- ![alt text](image-89.png) --></h2>
+<h2 id="configure-file-explorer">Configure File Explorer</h2>
+<p>Show how to always display hidden files in File Explorer</p>
+<ul>
+<li>Open File Explorer:</li>
+<li>Click <code>View</code> &gt; <code>Show</code> &gt; <code>Hidden items</code>
+<br> <img src="image-68.png" alt="alt text"></li>
+</ul>
+<hr>
+<h1 id="introduction-to-gitlabsgit-extensions">Introduction to GitLabs/Git Extensions</h1>
+<p>To introduce new users to <strong>GitLabs</strong> and <strong>Git Extensions</strong>, follow the steps below before trying to create or manage your own repository. I advise that you add only a few sample files to this test repo, all of which have been backed up elsewhere, just as a precaution.</p>
+<h3 id="create-remote-repository-in-gitlabs">Create Remote Repository in GitLabs</h3>
+<ol>
+<li>
+<p>Log in to <!-- [GitLab.iom](httpss://gitlab.com/) --> <a href="http://gitlab01.local/">AEGIS Gitlab</a> using the GitLab account you created earlier.</p>
+</li>
+<li>
+<p>Within GitLab, navigate to the <code>Projects</code> tab on the left sidebar (boxed in yellow) <br> <img src="Screenshot 2025-06-16 091348.png" alt="alt text"></p>
+</li>
+<li>
+<p>To make a blank project, click the <code>Create blank project</code> button (boxed in yellow) <br> <img src="Screenshot 2025-06-12 075329-1.png" alt="alt text"></p>
+</li>
+<li>
+<p>You will be taken to a page to create the blank project
+<br>a. Fill in the project name and URL boxes (boxed in purple)
+<br>b. Choose visibility level (boxed in green)
+<br>c. Check the <code>Initialize repository with a README</code> box (boxed in yellow)
+<br>d. To finish creating your blank project click <code>Create project</code> button (boxed in orange)
+<br><img src="Screenshot 2025-06-12 075413-1.png" alt="alt text"></p>
+</li>
+<li>
+<p>Your project is now ready to use
+<img src="Screenshot 2025-06-12 075515.png" alt="alt text"></p>
+</li>
+<li>
+<p>Copy the HTTPS URL and paste it into notepad or somewhere else you can find it again later.
+<img src="image-86.png" alt="alt text">
+<br> General Syntax:</p>
+<ul>
+<li><code>http://gitlab01.local/username/project-name</code></li>
+</ul>
+<p>My Example:</p>
+<ul>
+<li><code>http://gitlab01.local/csavugot/GitSrcCtrl_GUI</code></li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>This URL will be used later to clone the remote repo to our local computer</p>
+</blockquote>
+<blockquote>
+<p><strong>WARNING</strong><br>
+The URL provided when using <strong>Code</strong> → <strong>Clone with HTTPS</strong> → <code>Copy URL</code> is <strong>incorrect</strong>.<br>
+<img src="image-85.png" alt="alt text"></p>
+<p>If the copied URL contains <code>lan</code> (e.g., <code>http://gitlab01.lan.aegispower.com/csavugot/9402-80_cs.git</code>), <strong>do not use it</strong>.<br>
+This is a known GitLab configuration issue, and it's unlikely to be fixed soon.</p>
+<p><strong>Instead</strong>, follow Step 6 above to copy the correct URL.</p>
+</blockquote>
+<hr>
+<h3 id="clone-remote-repository-in-git-extensions">Clone Remote Repository in Git Extensions</h3>
+<ol>
+<li>
+<p>Open <strong>Git Extensions</strong></p>
+</li>
+<li>
+<p>In the <strong>left-hand sidebar</strong>, click <strong>Clone repository</strong></p>
+</li>
+<li>
+<p>In the Clone dialog:</p>
+<ul>
+<li><strong>Repository to clone</strong>: paste your GitLab HTTPS URL<br>
+<em>(e.g., <code>http://gitlab01.local/username/project-name</code>)</em> <!-- AEGIS --><!-- _(e.g., `https://gitlab.com/username/project-name.git`)_ -->
+<blockquote>
+<p>Note, although typically you can copy the <code>Clone with HTTP</code> URL found by clicking the blue <code>Code</code> button in a remote gitlab repository, this URL does NOT work at AEGIS. We're really not sure why...</p>
+</blockquote>
+</li>
+<li><strong>Destination</strong>: choose where to save the local copy</li>
+</ul>
+</li>
+<li>
+<p>Click <strong>Clone</strong>
+<br><img src="image-35.png" alt="alt text"> <!-- AEGIS --></p>
+</li>
+</ol>
+<!-- ![alt text](image-36.png) -->
+<ol start="5">
+<li>(Initial Setup Only) The first time you perform Git actions like <strong>clone</strong>, <strong>pull</strong>, or <strong>push</strong>, Git Credential Manager will prompt you for credentials:
+<br> <img src="image-37.png" alt="AEGIS"></li>
+</ol>
+<blockquote>
+<ul>
+<li><strong>Username</strong>: your GitLab <strong>username or email</strong></li>
+<li><strong>Password</strong>: your <strong>Personal Access Token (PAT)</strong><br>
+Git will save these securely via Windows Credential Manager.</li>
+</ul>
+</blockquote>
+<ol start="6">
+<li>
+<p>Uncheck the <code>Keep dialog open</code> box. If the popup box doesn't close automatically after the process is complete, click 'OK' after the Clone process is complete.
+<br> <img src="image-38.png" alt="alt text"></p>
+</li>
+<li>
+<p>Dialog box says <strong>cloned successfully, would you like to open repository?</strong> Click <code>yes</code>.</p>
+</li>
+</ol>
+<hr>
+<h3 id="edit-repository-with-vs-code">Edit Repository with VS Code</h3>
+<ol>
+<li>
+<p>See <a href="#open-local-directory-in-vs-code">Open Local Directory in VS Code</a> to open the repo in <strong>VS Code</strong></p>
+</li>
+<li>
+<p>Create a new file called <code>new.md</code> by clicking the <code>New File...</code> icon in the explorer left sidebar <br> <img src="image-88.png" alt="alt text"></p>
+</li>
+<li>
+<p>Paste in the following or add your own contents to the markdown file.</p>
+</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-section"># New File</span>
+<span class="hljs-section">## Purpose</span>
+We are creating this file so that we have new changes to push to the remote repo. 
+
+<span class="hljs-section">## Creation Details</span>
+Creating this file is part of the tutorial <span class="hljs-code">`Introduction to GitLab/Git Extensions`</span> that will be used to teach users basic GUI actions within GitLabs, Git Extensions, and VS Code.
+</div></code></pre>
+<ol start="4">
+<li>Save the File by pressing <code>Ctrl</code> + <code>s</code></li>
+</ol>
+<hr>
+<h3 id="commit--push-to-remote-repository-with-git-extensions">Commit &amp; Push to Remote Repository with Git Extensions</h3>
+<ol>
+<li>
+<p>Within Git Extensions, press the purple <code>Commit</code> button found on the ribbon.
+<br> <img src="image-43.png" alt="alt text"></p>
+</li>
+<li>
+<p>Stage all changed by pressing the purple multi-down-arrow icon highlighted below.
+<br> <img src="image-47.png" alt="alt text"></p>
+</li>
+<li>
+<p>After adding a Commit message to the dialog box, click <code>Commit &amp; push</code>.</p>
+</li>
+</ol>
+<hr>
+<h3 id="renaming-a-repository-in-gitlab">Renaming a Repository in GitLab</h3>
+<p>Changing the repository name and URL in GitLab involves a few steps: updating the repository name in the GitLab web interface, and then updating your local Git repository’s remote URL to match. Here’s a step-by-step guide:</p>
+<h4 id="step-1-change-the-repository-name-in-gitlab">Step 1: Change the Repository Name in GitLab</h4>
+<ol>
+<li>
+<p><strong>Log in to GitLab</strong> and go to the <strong>project page</strong> of the repository you want to rename.</p>
+</li>
+<li>
+<p>In the left sidebar, click <strong>Settings</strong> &gt; <strong>General</strong>.
+<br> <img src="image-69.png" alt="alt text"></p>
+</li>
+<li>
+<p>Expand the <strong>Naming, topics, avatar</strong> section and update the <strong>Project name</strong>
+<br> <img src="image-70.png" alt="alt text"></p>
+</li>
+<li>
+<p>Click the blue <code>Save changes</code> button</p>
+</li>
+<li>
+<p>Expand the <strong>Advanced</strong> section.
+<img src="image-87.png" alt="alt text"></p>
+</li>
+<li>
+<p>Update the <strong>Path</strong> directory within the <strong>Change path</strong> section to match new name
+<br> <strong>Project name:</strong> <code>GitSrcCtrl GUI</code>
+<br> <strong>Path:</strong> <code>GitSrcCtrl_GUI</code></p>
+<blockquote>
+<p>Note: If any space characters were used within Project name, replace with <code>_</code> here.
+<br><br></p>
+</blockquote>
+</li>
+<li>
+<p>Click the red <code>Change path</code> button to confirm changes.
+<br> <img src="image-71.png" alt="alt text"></p>
+</li>
+</ol>
+<h4 id="step-2-update-the-remote-url-in-git-extensions">Step 2: Update the Remote URL in Git Extensions</h4>
+<p>After renaming your repository in GitLab, follow these steps to update the remote URL using <strong>Git Extensions</strong>:</p>
+<ol>
+<li>
+<p><strong>Open Git Extensions</strong> and navigate to your local repository by selecting <strong>Repository &gt; Open</strong>.</p>
+</li>
+<li>
+<p>In the top menu, click <strong>Repository &gt; Remote repositories</strong>.</p>
+</li>
+<li>
+<p>A window titled <strong>Remote repositories</strong> will appear, listing the current remotes. Select the correct remote repository (In most cases, there will only be one.)</p>
+</li>
+<li>
+<p>Update the <strong>Name</strong> and <strong>Url</strong> details to match the <strong>Project name</strong> and  <br> <img src="image-72.png" alt="alt text"></p>
+</li>
+<li>
+<p>Click <strong>Save</strong> (or <strong>OK</strong>) to apply the changes.
+<br> <img src="image-73.png" alt="alt text"></p>
+</li>
+<li>
+<p>(Optional) Verify the change:</p>
+<ul>
+<li>Go to <strong>Repository &gt; Remote repositories</strong> again.</li>
+<li>Confirm that the URL listed matches your new GitLab repository URL.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1 id="general-git-gui-commands">General Git GUI Commands</h1>
+<p>This section contains instructions to complete many essential actions used throughout the development cycle. A list of the commands covered is shown below:</p>
+<ul>
+<li><a href="#create-local-repository">Create Local Repository</a></li>
+<li><a href="#clone-remote-repo">Clone Remote Repo</a></li>
+<li><a href="#pull-all-remote-branches-to-local-repo">Pull All Remote Branches to Local Repo</a></li>
+<li><a href="#open-local-repository">Open Local Repository</a></li>
+<li><a href="#create-branch">Create Branch</a></li>
+<li><a href="#checkout-branch">Checkout Branch</a></li>
+<li><a href="#create-tag">Create Tag</a></li>
+<li><a href="#merge-branch">Merge Branch</a></li>
+<li><a href="#manage-merge-conflicts">Manage Merge Conflicts</a></li>
+<li><a href="#push-to-remote">Push to Remote</a></li>
+<li><a href="#delete-branch">Delete Branch</a></li>
+</ul>
+<hr>
+<h2 id="create-local-repository">Create Local Repository</h2>
+<p>Creating a Local Repository from Existing Code &amp; Push to Remote (First-Time Upload)</p>
+<blockquote>
+<p>This is only for local directories that haven't been initialized as local repositories.</p>
+<p>This means they do not contain the <strong>.git</strong> folder. <br>
+<strong>.git</strong> may be hidden depending on file explorer settings. See <a href="#configure-file-explorer">Configure File Explorer</a> for more info.</p>
+</blockquote>
+<ol>
+<li>
+<p>First, create the remote repository in GitLab by following <a href="#create-remote-repository-on-gitlab">instructions here</a>. Remember to copy the URL.</p>
+</li>
+<li>
+<p>Within Git Extensions, on the <strong>left-hand sidebar</strong>, click <code>Create new repository</code>
+<br> <img src="image-41.png" alt="alt text"></p>
+</li>
+<li>
+<p>Click <code>Browse</code> to locate and select local directory you wish to initialize as a local repository. Ensure Repository type is set to <code>Personal repository</code> and click <code>Create</code>
+<br> <img src="image-40.png" alt="alt text"></p>
+</li>
+<li>
+<p>You should see a message similar to the following if Git Extensions was able to successfully initialize a new repository in the specified location. Click <code>OK</code> to continue.
+<br> <img src="image-42.png" alt="alt text"></p>
+</li>
+<li>
+<p>In the <strong>left-hand sidebar</strong>, right-click <code>Remotes</code>, then click <code>manage</code></p>
+</li>
+<li>
+<p>Fill out the <strong>Create New Remote</strong> section. Use the URL you copied from GitLab earlier.</p>
+</li>
+</ol>
+<ul>
+<li><strong>Name:</strong> GitSrcCtrl_GUI</li>
+<li><strong>Url:</strong> http://gitlab01.local/csavugot/GitSrcCtrl_GUI
+<br> <img src="image-44.png" alt="alt text"></li>
+</ul>
+<blockquote>
+<p>Note: The name MUST be the one specified in the URL, which cannot include spaces. This may be different than the name you see on the GitLab website UI</p>
+</blockquote>
+<ol start="7">
+<li>
+<p>If you receive the following message, Git was able to locate your Remote Repository. Click <code>Yes</code> followed by <code>OK</code> to continue.<br> <img src="image-45.png" alt="alt text"></p>
+</li>
+<li>
+<p>Close the <strong>Remote repositories</strong> pop-up box by pressing the <code>x</code> in the top right corner.</p>
+</li>
+<li>
+<p>Commit the changes to the remote repository. For details, see <a href="#commit--push-to-remote-repository-with-git-extensions">Commit &amp; Push to Remote Repository with Git Extensions</a></p>
+</li>
+</ol>
+<hr>
+<h2 id="clone-remote-repo">Clone Remote Repo</h2>
+<ol>
+<li>
+<p>For help cloning a remote repo, see <a href="#clone-remote-repository-in-git-extensions">Clone Remote Repository in Git Extensions</a></p>
+</li>
+<li>
+<p>After cloning, it is important to pull all remote branches to ensure they're created locally, if the repository contains branches other than main. See <a href="#pull-all-remote-branches-to-local-repo">Pull All Remote Branches to Local Repo</a> for more details.</p>
+</li>
+</ol>
+<hr>
+<h2 id="pull-all-remote-branches-to-local-repo">Pull All Remote Branches to Local Repo</h2>
+<p>Useful
+<strong>Using Git Bash:</strong></p>
+<ol>
+<li>
+<p>Open <strong>Git Bash</strong></p>
+</li>
+<li>
+<p>Navigate to the local directory where the Remote Repo has been cloned. In my case:</p>
+</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-built_in">cd</span> /c/Users/csavugot/Downloads/APBDC-E01/apbdc-e01
+</div></code></pre>
+<blockquote>
+<p>Within <strong>Git Bash</strong>, this is the general syntax to reach a User's Windows Downloads Directory <br>
+<code>cd /c/Users/&lt;YourWindowsUsername&gt;/Downloads</code></p>
+<p>Note that in <strong>windows</strong> the C drive is denoted as <code>C:\</code>, in <strong>git bash</strong> the C drive is denoted as <code>/c/</code></p>
+</blockquote>
+<ol start="3">
+<li>Enter the following command</li>
+</ol>
+<pre class="hljs"><code><div>git fetch --all --prune
+<span class="hljs-keyword">for</span> remote <span class="hljs-keyword">in</span> $(git branch -r | grep -v <span class="hljs-string">'/HEAD'</span>); <span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">local</span>=<span class="hljs-variable">${remote#origin/}</span>
+  git branch --track <span class="hljs-string">"<span class="hljs-variable">$local</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$remote</span>"</span> 2&gt;/dev/null
+<span class="hljs-keyword">done</span>
+</div></code></pre>
+<ol start="4">
+<li>Refresh <strong>Git Extensions</strong> by pressing <code>F5</code> to confirm it worked. You should soo all of the Remote Branches now exist locally
+<br> <img src="image-74.png" alt="alt text"></li>
+</ol>
+<hr>
+<h2 id="open-local-repository">Open Local Repository</h2>
+<h3 id="on-git-extensions"><strong>On Git Extensions</strong></h3>
+<ol>
+<li>
+<p>On the <strong>left-hand sidebar</strong>, click <code>Open repository</code> to open a repository.
+<br> <img src="image-41.png" alt="alt text"></p>
+</li>
+<li>
+<p>Click <code>Browse...</code> to select a file directory that has been initialized as a repository. Next, click <code>Open</code>
+<br> <img src="image-50.png" alt="alt text"></p>
+</li>
+</ol>
+<blockquote>
+<p>The file directory must include the .git folder, which is how you can confirm it is an initialized repo.</p>
+<p><strong>.git</strong> may be hidden depending on file explorer settings. See <a href="#file-explorer-configuration">File Explorer Configuration</a> for more info.</p>
+</blockquote>
+<h3 id="open-in-vs-code"><strong>Open in VS Code</strong></h3>
+<ol>
+<li>On VS Code, just open it as you would any other local directory. See <a href="#open-local-directory-in-vs-code">Open Local Directory in VS Code</a> for more information. VS Code automatically locates the <strong>.git</strong> folder (if it exists) and opens the repository within the source control section on the left side-bar.</li>
+</ol>
+<hr>
+<h2 id="create-branch">Create Branch</h2>
+<blockquote>
+<p>New branch is based on local Directory, not remote branch</p>
+</blockquote>
+<ol start="0">
+<li>
+<p>These instructions you have already have a repository open in <strong>Git Extensions</strong>. For more details, see <a href="#open-local-repository">Open Local Repository</a></p>
+</li>
+<li>
+<p>On the Ribbon, Click <code>Commands</code> &gt; <code>Create branch...</code>  <br> <img src="image-53.png" alt="alt text"></p>
+</li>
+<li>
+<p>Enter branch name, ensure the following options are selected, and click <code>Create branch</code></p>
+</li>
+</ol>
+<ul>
+<li>Select <code>Checkout after create</code></li>
+<li>Deselect <code>Create orphan</code>
+<br> <img src="image-54.png" alt="alt text"></li>
+</ul>
+<ol start="3">
+<li>
+<p>Click <code>OK</code></p>
+</li>
+<li>
+<p>Push to Remote. For Details, see <a href="#push-to-remote">Push to Remote</a></p>
+</li>
+<li>
+<p>To make this prompt disappear, uncheck the <code>Keep dialog open</code> box
+<br> <img src="image-55.png" alt="alt text"></p>
+</li>
+</ol>
+<hr>
+<h2 id="checkout-branch">Checkout Branch</h2>
+<p>Branch checkout selects an active branch. This is the branch all of your changes will be applied to.</p>
+<blockquote>
+<p><strong>BEFORE</strong> Checking out branch, commit all changes to current branch so that there are no conflicts.</p>
+</blockquote>
+<ol>
+<li>
+<p>Double Click on the Branch you wish to Checkout from the Branches in the <strong>left-hand sidebar</strong></p>
+</li>
+<li>
+<p>If there are conflicts, the following pop-up will appear given you access to many different solutions.
+<br> <img src="image-57.png" alt="alt text"></p>
+</li>
+</ol>
+<hr>
+<h2 id="create-tag">Create Tag</h2>
+<p>Tags are used to mark official versions released to the public. Follow the instructions below to create one. Release Tags will only be given to commits on the <code>main</code> branch.
+See <a href="#versioning-convention">Versioning Convention</a> and <a href="#tagging-convention">Tagging Convention</a> for more details.</p>
+<ol>
+<li>
+<p>Right-Click on the most recent commit to main then click <code>Create new tag here...</code>
+<br> <img src="image-95.png" alt="alt text"></p>
+</li>
+<li>
+<p>Add a tag name, see <a href="#versioning-convention">Versioning Convention</a> for more details.</p>
+</li>
+<li>
+<p>Select <code>Push tag to 'origin'</code></p>
+</li>
+<li>
+<p>Select <code>Annotated tag</code> from the drop-down menu</p>
+</li>
+<li>
+<p>Add a Descriptive Tag Message. <br>
+<strong>General Format:</strong>
+<code>Release vx.y.z – Short Tag Description</code>
+<br><img src="image-97.png" alt="alt text"></p>
+</li>
+<li>
+<p>Click <code>Create tag</code></p>
+</li>
+</ol>
+<hr>
+<h2 id="merge-branch">Merge Branch</h2>
+<ol>
+<li>
+<p>Checkout the branch you wish to merge into (target branch). For more details, see <a href="#checkout-branch">Checkout Branch</a></p>
+</li>
+<li>
+<p>Click <code>Commands</code> &gt; <code>Merge Branches...</code>
+<img src="image-92.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select the branch you wish to merge from (source branch).</p>
+</li>
+<li>
+<p>Ensure all other selections match the screenshot below.
+<br>a. Click <code>Always create a new merge commit</code>
+<br>b. Select <code>Show advanced options</code>
+<br>c. Select <code>Specify merge message</code>
+<br>d. Enter a merge message
+<img src="image-58.png" alt="alt text"></p>
+</li>
+<li>
+<p>Click <code>Merge</code></p>
+</li>
+</ol>
+<hr>
+<h2 id="manage-merge-conflicts">Manage Merge Conflicts</h2>
+<h3 id="use-git-extensions-to-start-merge">Use Git Extensions to start Merge</h3>
+<ol>
+<li>
+<p>Start the merge by following the <a href="#merge-branch">Merge Branch instructions</a></p>
+</li>
+<li>
+<p>VS Code should open immediately. If it does not, select the option to open merge conflicts in editor.</p>
+</li>
+<li>
+<p>Click <code>Resolve in Merge Editor</code>
+<img src="image-93.png" alt="alt text"></p>
+</li>
+<li>
+<p>Use the resolution buttons provided in the editor:
+<img src="image-94.png" alt="alt text"></p>
+<ul>
+<li><strong>Accept Current Change</strong> – Keeps the version from your current branch (<code>HEAD</code>).</li>
+<li><strong>Accept Incoming Change</strong> – Uses the version from the branch you're merging in.</li>
+<li><strong>Accept Both Changes</strong> – Keeps both versions, stacked one after the other.</li>
+<li><strong>Compare Changes</strong> – Opens a side-by-side diff view to help you decide.</li>
+</ul>
+</li>
+<li>
+<p>Click <code>Complete Merge</code></p>
+</li>
+<li>
+<p>Commit the merge from either <strong>Git Extensions</strong> or <strong>VS Code</strong>. For more info, see <a href="#commit--push-to-remote-repository-with-git-extensions">Commit &amp; Push to Remote Repository with Git Extensions</a></p>
+</li>
+</ol>
+<hr>
+<h2 id="push-to-remote">Push to Remote</h2>
+<ol>
+<li>
+<p>Click <code>Commands</code> &gt; <code>Push...</code>.
+<br> <img src="image-56.png" alt="alt text"></p>
+</li>
+<li>
+<p>After ensuring that all information is correct, press the <code>Push</code> button.</p>
+</li>
+</ol>
+<ul>
+<li>Ensure the both the branch selected to push from and to is <code>&lt;CURRENT_BRANCH&gt;</code>
+<br> <img src="image-48.png" alt="alt text"></li>
+</ul>
+<ol start="3">
+<li>If more prompts appear, click <code>Yes</code> followed by <code>Yes</code> followed by <code>OK</code>.
+<br> <img src="image-49.png" alt="alt text"></li>
+</ol>
+<hr>
+<h2 id="delete-branch">Delete Branch</h2>
+<h3 id="step-1-deleting-local-branch">Step 1: Deleting Local Branch</h3>
+<blockquote>
+<p>After merging a feature branch, it's safe to delete the branch.<br>
+The full history, including all commits and the merge itself, is preserved in the develop branch.<br>
+Deleting the branch only removes the name; it does <strong>not</strong> erase any commit history.</p>
+</blockquote>
+<blockquote>
+<p>You cannot delete the branch thats currently checked-out. Checkout a different branch first. For more details, see <a href="#checkout-branch">Checkout Branch</a></p>
+</blockquote>
+<ol>
+<li>
+<p>Right Click on the Branch you wish to delete within the <strong>left-hand sidebar</strong>. Click <code>Delete Branch...</code><img src="image-59.png" alt="alt text"></p>
+</li>
+<li>
+<p>Click <code>Delete</code> to confirm branch deletion <img src="image-60.png" alt="alt text"></p>
+</li>
+</ol>
+<blockquote>
+<p>As mentioned, you can see from the Git Graph that although the branch was deleted, its history of existence is preserved. (Light Blue Line)
+<br> <img src="image-61.png" alt="alt text"></p>
+</blockquote>
+<h3 id="step-2-deleting-remote-branch">Step 2: Deleting Remote Branch</h3>
+<p>Note: The instructions below are for deleting a remote branch that has already been deleted locally. If you need to know how to delete a local branch, see <a href="#delete-branch">Delete Branch</a></p>
+<ol>
+<li>
+<p>Click <code>Commands</code> &gt; <code>Push...</code>
+<br> <img src="image-82.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select the <code>Push multiple branches</code> tab.
+<br> <img src="image-83.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select all branches that don't exist locally.</p>
+<blockquote>
+<p>Branches that don't exist locally will not have a check box under the <strong>Push</strong> or <strong>Force</strong> Column.
+<br> <img src="image-79.png" alt="alt text"></p>
+</blockquote>
+</li>
+<li>
+<p>Click <code>Push</code></p>
+</li>
+</ol>
+<hr>
+<h2 id="diff-compare-branches">Diff Compare Branches</h2>
+<ol>
+<li>
+<p>Right Click on the commit or branch you wish to compare to another branch, then click <code>Compare</code> &gt; <code>Compare to branch...</code>
+<br><img src="image-98.png" alt="alt text"></p>
+</li>
+<li>
+<p>Select the remote or local branch you wish to compare to using the buttons and dropdown menu.
+<br><img src="image-99.png" alt="alt text"></p>
+</li>
+<li>
+<p>For quick comparisons, you can you the built-in git diff tool. Otherwise, press the <code>Open diff using directory diff tool</code>
+<br><img src="image-105.png" alt="alt text"></p>
+</li>
+<li>
+<p>More in-depth comparisons can be done in <strong>VS Code</strong>. Open the side-by-side comparison by following the process below:
+<br>a. Find the name of the first file you wish to compare.
+<br>b. Right-Click the file name under the <strong>Left</strong> directory.
+<br>c. From the context menu, select <code>Select for Compare</code>.
+<br><img src="image-103.png" alt="alt text">
+<br>d. Right-Click the same file name under the <strong>Right</strong> directory.
+<br>e. From the context menu, select <code>Select for Compare</code>.
+<br><img src="image-104.png" alt="alt text"></p>
+</li>
+<li>
+<p>This gives to a visual comparison between two branches. If you wish to combine these two branches, especially selecting some , see <a href="#merge-branch">Merge Branch</a>.
+<br><img src="image-102.png" alt="alt text"></p>
+</li>
+</ol>
+<hr>
+<h1 id="aegis-development-workflow">AEGIS Development Workflow</h1>
+<p>This section lays out our development workflow. This guide makes use of <strong>VS Code</strong> and <strong>Git Extensions</strong>, minimizing command-line usage. The image below displays a general protocol that we wish to replicate here at AEGIS.</p>
+<p><img src="Git-branching-model.svg" alt="alt text"></p>
+<hr>
+<h2 id="git-flow-branch-summary-gui-based">Git Flow Branch Summary (GUI-Based)</h2>
+<table>
+<thead>
+<tr>
+<th>Branch</th>
+<th>Purpose</th>
+<th>Created From</th>
+<th>Merges Into</th>
+<th>Tag?</th>
+<th>GUI Workflow Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>main</code></td>
+<td>Production-ready, stable code</td>
+<td><code>release/*</code>, <code>hotfix/*</code></td>
+<td>—</td>
+<td>Yes</td>
+<td>Default branch. Use Git Extensions <code>Merge</code> with <code>--no-ff</code>. Tag via right-click (e.g., <code>v&lt;version&gt;</code>).</td>
+</tr>
+<tr>
+<td><code>develop</code></td>
+<td>Integrates completed features</td>
+<td><code>main</code></td>
+<td><code>release/*</code></td>
+<td>No</td>
+<td>Create from <code>main</code>. Merge in <code>feature/*</code> or <code>release/*</code> via Git Extensions.</td>
+</tr>
+<tr>
+<td><code>feature/&lt;name&gt;</code></td>
+<td>New feature or experiment</td>
+<td><code>develop</code></td>
+<td><code>develop</code></td>
+<td>No</td>
+<td>Create branch. Commit changes. Merge to <code>develop</code> with <code>--no-ff</code>. Delete after merge.</td>
+</tr>
+<tr>
+<td><code>hardware/&lt;name&gt;</code></td>
+<td>Hardware-specific testing or debugging</td>
+<td><code>develop</code></td>
+<td>Varies*</td>
+<td>No</td>
+<td>Create from <code>develop</code>. Used for physical hardware validation and bring-up. May be deleted or rebased.</td>
+</tr>
+<tr>
+<td><code>release/v&lt;version&gt;</code></td>
+<td>Final polish before release</td>
+<td><code>develop</code></td>
+<td><code>main</code>, <code>develop</code></td>
+<td>Yes</td>
+<td>Create from <code>develop</code>. Finalize changes. Merge to <code>main</code>, tag (<code>v&lt;version&gt;</code>), then merge to <code>develop</code>.</td>
+</tr>
+<tr>
+<td><code>hotfix/v&lt;version&gt;</code></td>
+<td>Urgent fix to production</td>
+<td><code>main</code></td>
+<td><code>main</code>, <code>develop</code></td>
+<td>Yes</td>
+<td>Create from <code>main</code>. Apply fix. Merge to <code>main</code> and <code>develop</code>, tag, then delete.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Tip</strong>: Always merge with <code>--no-ff</code> to preserve history and branch identity.<br>
+<code>--no-ff</code> means no fast-forward.<br>
+By selecting <code>Always create a new merge commit</code> when completing a merge, we ensure that fast-forward is disabled.<br>
+See <a href="#merge-branch">Merge Branch</a> for more details.</p>
+</blockquote>
+<hr>
+<h2 id="branch-naming-conventions">Branch Naming Conventions</h2>
+<table>
+<thead>
+<tr>
+<th>Branch Type</th>
+<th>Format Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feature</td>
+<td><code>feature/&lt;short-name&gt;</code></td>
+<td>Use dashes for spaces, e.g., <code>feature/export-csv</code></td>
+</tr>
+<tr>
+<td>Hardware</td>
+<td><code>hardware/&lt;short-name&gt;</code></td>
+<td>Used for low-level hardware testing, e.g., <code>hardware/spi-timing-check</code></td>
+</tr>
+<tr>
+<td>Release</td>
+<td><code>release/v&lt;version&gt;</code></td>
+<td>Semantic versioning, e.g., <code>release/v1.2.0</code></td>
+</tr>
+<tr>
+<td>Hotfix</td>
+<td><code>hotfix/v&lt;version&gt;</code></td>
+<td>Emergency patch, e.g., <code>hotfix/v1.2.1</code></td>
+</tr>
+<tr>
+<td>Tags</td>
+<td><code>v&lt;version&gt;</code></td>
+<td>Use tags on <code>main</code> to mark official release points (e.g., <code>v1.0.0</code>)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note</strong>: <code>feature/*</code> and <code>hardware/*</code> branches should be short-lived and always branched off <code>develop</code>.</p>
+</blockquote>
+<hr>
+<h2 id="versioning-convention">Versioning Convention</h2>
+<p>To clearly track and identify production-ready releases, we use <strong>semantic versioning</strong> along with signed Git tags.</p>
+<h3 id="version-format">Version Format</h3>
+<p>All official releases are tagged using the format:</p>
+<pre class="hljs"><code><div>v&lt;version&gt;
+</div></code></pre>
+<p>Where:</p>
+<pre class="hljs"><code><div>&lt;version&gt; = x.y.z
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>Meaning</th>
+<th>Trigger for Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x</code></td>
+<td><strong>Major version</strong></td>
+<td>Incompatible or breaking changes (e.g., API rewrite)</td>
+</tr>
+<tr>
+<td><code>y</code></td>
+<td><strong>Minor version</strong></td>
+<td>Backward-compatible feature additions</td>
+</tr>
+<tr>
+<td><code>z</code></td>
+<td><strong>Hotfix version</strong></td>
+<td>Bug fixes, urgent patches, or small stability updates</td>
+</tr>
+</tbody>
+</table>
+<h3 id="version-update-rules">Version Update Rules</h3>
+<p>Every new release must be tagged with an updated version number, following a consistent and meaningful progression. Version components update as follows:</p>
+<ul>
+<li>
+<p><strong>Major (<code>x</code>)</strong>: Increment for breaking changes or major milestones
+Reset <code>y</code> and <code>z</code> to <code>00</code>
+Example: <code>v1.3.2</code> becomes <code>v2.0.0</code></p>
+</li>
+<li>
+<p><strong>Minor (<code>y</code>)</strong>: Increment for backward-compatible feature additions
+Reset <code>z</code> to <code>00</code>, keep <code>x</code> unchanged
+Example: <code>v2.4.5</code> becomes <code>v2.5.0</code></p>
+</li>
+<li>
+<p><strong>Hotfix (<code>z</code>)</strong>: Increment for patches, bug fixes, or minor improvements
+Keep both <code>x</code> and <code>y</code> unchanged
+Example: <code>v2.5.0</code> becomes <code>v2.5.1</code></p>
+</li>
+</ul>
+<blockquote>
+<p>This structured versioning helps communicate the <strong>impact of changes</strong>, supports <strong>clear history tracking</strong>, and aligns with Git Flow branching.</p>
+</blockquote>
+<hr>
+<h2 id="tagging-convention">Tagging Convention</h2>
+<p>Tags should always be <strong>annotated and signed</strong> to ensure authenticity and traceability.</p>
+<h4 id="create-a-new-release-tag">Create a New Release Tag:</h4>
+<p>To create a new release Tag, see <a href="#create-tag">Create Tag</a></p>
+<blockquote>
+<p>Do not tag directly on a <code>feature/*</code> or <code>develop</code> branch. Tags are only applied to <code>main</code> after a release or hotfix merge.</p>
+</blockquote>
+<hr>
+<h3 id="tag-examples">Tag Examples</h3>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>v1.0.0</code></td>
+<td>First official release</td>
+</tr>
+<tr>
+<td><code>v1.1.0</code></td>
+<td>Adds a new feature (e.g., new module, screen)</td>
+</tr>
+<tr>
+<td><code>v1.1.1</code></td>
+<td>Fixes a regression or bug</td>
+</tr>
+<tr>
+<td><code>v2.0.0</code></td>
+<td>Introduces breaking changes or refactoring</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="where-tags-fit-in-git-flow">Where Tags Fit in Git Flow</h3>
+<ul>
+<li><code>release/*</code> branches are named as <code>release/&lt;version&gt;</code></li>
+<li>After merging a release into <code>main</code>, it is immediately tagged as <code>v&lt;version&gt;</code></li>
+<li>Hotfixes follow the same process via <code>hotfix/&lt;version&gt;</code> and also result in a <code>v&lt;version&gt;</code> tag</li>
+</ul>
+<p>Tags like <code>v1.0.0</code>, <code>v1.1.0</code>, and <code>v2.0.1</code> help define and trace each production milestone in your Git history.</p>
+<hr>
+<h2 id="main"><code>main</code></h2>
+<p><code>main</code> is the default branch for production-ready code.</p>
+<h3 id="main-branch-creation">main Branch Creation</h3>
+<p>The <code>main</code> branch is automatically created when the Git repository is initialized.<br>
+See <a href="#create-remote-repository-on-gitlab">Create Remote Repository</a> and <a href="#creating-a-local-repository-from-existing-code--push-to-remote-first-time-upload">Creating a Local Repository</a> for setup details.</p>
+<h3 id="main-branch-management">main Branch Management</h3>
+<p>The <code>main</code> branch is the production-ready branch and should only be updated by merging in <code>release/*</code> or <code>hotfix/*</code> branches.<br>
+See <a href="#merge-branch">Merge Branch</a> for details.</p>
+<p>Do <strong>NOT</strong> commit to <code>main</code> directly.</p>
+<p>After a merge, apply a signed release tag to mark the official version.<br>
+See <a href="#versioning-convention">Versioning Convention</a> and <a href="#tagging-convention">Tagging Convention</a> for instructions.</p>
+<blockquote>
+<p>The Git Flow diagram refers to this branch as <code>master</code>. We follow the modern naming convention of <code>main</code>.</p>
+</blockquote>
+<h3 id="main-branch-deletion">main Branch Deletion</h3>
+<p>Do not delete this branch. It serves as the primary record of all stable, production releases.</p>
+<hr>
+<h2 id="develop"><code>develop</code></h2>
+<p><code>develop</code> serves as the integration branch for all completed features.</p>
+<h3 id="develop-branch-creation">develop Branch Creation</h3>
+<p>Create the <code>develop</code> branch from <code>main</code> to act as the staging area for completed features.<br>
+See <a href="#create-branch">Create Branch</a> for detailed steps.</p>
+<h3 id="develop-branch-management">develop Branch Management</h3>
+<p>All <code>feature/*</code> and <code>release/*</code> branches are merged into <code>develop</code>.</p>
+<blockquote>
+<p>The first release commit does not need to be merged into develop, as it is created from develop without modification.<br>
+Subsequent release commits include minor bug fixes that should be merged back into develop.</p>
+</blockquote>
+<p>See <a href="#merge-branch">Merge Branch</a> and <a href="#commit--push-to-remote-repository-with-git-extensions">Commit &amp; Push to Remote Repository with Git Extensions</a> for more details.</p>
+<h3 id="develop-branch-deletion">develop Branch Deletion</h3>
+<p>The <code>develop</code> branch is long-lived and should <strong>NEVER</strong> be deleted.</p>
+<hr>
+<h2 id="featurename"><code>feature/&lt;name&gt;</code></h2>
+<p><code>feature/*</code> branches are used for isolated development of new features or experiments.</p>
+<h3 id="feature-branch-creation">feature Branch Creation</h3>
+<p>Create a new <code>feature/*</code> branch from <code>develop</code> whenever you start work on a <strong>new feature, improvement, or experimental idea</strong>.</p>
+<p>Each feature gets its <strong>own uniquely named branch</strong> using the format:
+<code>feature/&lt;Short-Name&gt;</code></p>
+<blockquote>
+<p>Use dashes for spaces, e.g., <code>feature/Export-CSV</code></p>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li><code>feature/Export-CSV</code></li>
+<li><code>feature/Login-Flow</code></li>
+<li><code>feature/Refactor-Header</code></li>
+</ul>
+<p>This keeps feature development isolated and easy to review.<br>
+See <a href="#create-branch">Create Branch</a> for detailed steps.</p>
+<h3 id="feature-branch-management">feature Branch Management</h3>
+<p>Work on your feature locally, and regularly commit and push changes to the remote feature branch.<br>
+See <a href="#commit--push-to-remote-repository-with-git-extensions">Commit &amp; Push to Remote Repository with Git Extensions</a> for detailed steps.</p>
+<p>When complete, merge it back into <code>develop</code>.<br>
+See <a href="#merge-branch">Merge Branch</a> for more details.</p>
+<h3 id="feature-branch-deletion">feature Branch Deletion</h3>
+<p>After merging into <code>develop</code>, the <code>feature/*</code> branch should be deleted to avoid clutter.<br>
+Even after deletion, the branch’s history remains visible in Git logs and commit history.<br>
+See <a href="#delete-branch">Delete Branch</a> for more details.</p>
+<hr>
+<p>Here’s a new section documenting the <code>hardware/*</code> branch pattern, written in the same tone and structure as your existing <code>feature/*</code> section. This assumes <code>hardware/*</code> branches are used to isolate code changes needed specifically for hardware validation, prototyping, or bring-up.</p>
+<hr>
+<h2 id="hardwarename"><code>hardware/&lt;name&gt;</code></h2>
+<p><code>hardware/*</code> branches are used for development tied to <strong>physical hardware testing</strong>, validation, or prototyping.</p>
+<p>This branch type helps prevent low-level testing hacks or quick workarounds from contaminating general development (<code>develop</code> or <code>feature/*</code>).</p>
+<hr>
+<h3 id="hardware-branch-creation">hardware Branch Creation</h3>
+<p>Create a new <code>hardware/*</code> branch from <code>develop</code> when beginning a hardware-specific investigation or test.</p>
+<p>Each hardware branch should be clearly named based on what is being tested. Use the format:
+<code>hardware/&lt;Short-Name&gt;</code></p>
+<blockquote>
+<p>Use dashes for spaces, e.g., <code>hardware/ADC-test</code></p>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li><code>hardware/AC-Interleaved/80kHz</code></li>
+<li><code>hardware/ADC-test</code></li>
+<li><code>hardware/DCDC-Resonant-Checks/115kHz</code></li>
+</ul>
+<p>See <a href="#create-branch">Create Branch</a> for detailed steps.</p>
+<hr>
+<h3 id="hardware-branch-management">hardware Branch Management</h3>
+<p>Use these branches to:</p>
+<ul>
+<li>Try out hardware-focused experiments or debug workarounds</li>
+<li>Capture commit history specific to what was tested</li>
+<li>Share testing progress with teammates without cluttering production code</li>
+</ul>
+<p>Changes made in a <code>hardware/*</code> branch may or may not be merged back into <code>develop</code>, depending on:</p>
+<ul>
+<li>Whether the test yielded a useful long-term improvement</li>
+<li>Whether the code is suitable for production use</li>
+</ul>
+<blockquote>
+<p><strong>Tip:</strong> If a hardware branch results in a fix or enhancement that should be kept, consider <strong>rebasing or porting those changes into a <code>feature/*</code> branch</strong> instead of merging directly.</p>
+</blockquote>
+<p>See <a href="#commit--push-to-remote-repository-with-git-extensions">Commit &amp; Push to Remote Repository with Git Extensions</a> and <a href="#merge-branch">Merge Branch</a> for more info.</p>
+<hr>
+<h3 id="hardware-branch-deletion">hardware Branch Deletion</h3>
+<p>Once hardware testing is complete and no longer active:</p>
+<ul>
+<li>If useful changes were kept or ported, delete the <code>hardware/*</code> branch to keep your branch list clean.</li>
+<li>If the branch was used for short-lived debugging and won't be merged, it can also be deleted.</li>
+</ul>
+<p>Even after deletion, the branch’s history remains visible in Git logs and commit history.
+See <a href="#delete-branch">Delete Branch</a> for more details.</p>
+<hr>
+<h2 id="releasevversion"><code>release/v&lt;version&gt;</code></h2>
+<p><code>release/*</code> branches are used to prepare production-ready code for deployment.</p>
+<h3 id="release-branch-creation">release Branch Creation</h3>
+<p>Create a new <code>release/*</code> branch from <code>develop</code> when the code is stable enough to prepare for a production release.</p>
+<p>Each release branch is named after the version it will become, using the format:</p>
+<p><code>release/v&lt;version&gt;</code></p>
+<p>Examples:</p>
+<ul>
+<li><code>release/v1.0.0</code></li>
+<li><code>release/v2.3.0</code></li>
+</ul>
+<p>You will have a <strong>different <code>release/*</code> branch for each version</strong> that is being finalized for deployment.</p>
+<p>See <a href="#create-branch">Create Branch</a> for instructions.<br>
+See <a href="#versioning-convention">Versioning Convention</a> for <code>&lt;version&gt;</code> naming guidelines.</p>
+<h3 id="release-branch-management">release Branch Management</h3>
+<p>Use the <code>release/*</code> branch to finalize everything needed before an official release — such as version numbers, documentation updates, and last-minute bug fixes.</p>
+<p>Once finalized:</p>
+<ol>
+<li>
+<p><strong>Merge into <code>main</code></strong> — This publishes the release.<br>
+See <a href="#merge-branch">Merge Branch</a> for detailed steps.</p>
+</li>
+<li>
+<p><strong>Tag the <code>main</code> branch</strong> with the final release version (e.g., <code>v1.2.0</code>).<br>
+See <a href="#versioning-convention">Versioning Convention</a> and <a href="#tagging-convention">Tagging Convention</a>.</p>
+</li>
+<li>
+<p><strong>Merge the same <code>release/*</code> branch back into <code>develop</code></strong> — This ensures that any bug fixes, doc changes, or cleanup made during the release process are carried forward into ongoing development.</p>
+</li>
+</ol>
+<blockquote>
+<p>If <strong>no changes</strong> were made in the <code>release</code> branch after it was created from <code>develop</code>, this merge is unnecessary. However, if anything was added — even a version bump or README tweak — you <strong>must</strong> merge it back into <code>develop</code>.</p>
+</blockquote>
+<h3 id="release-branch-deletion">release Branch Deletion</h3>
+<p>Once both merges are complete and the tag is created, delete the <code>release/*</code> branch.<br>
+Even after deletion, the branch’s history remains visible in Git logs and commit history.<br>
+See <a href="#delete-branch">Delete Branch</a> for more details.</p>
+<hr>
+<h2 id="hotfixvversion"><code>hotfix/v&lt;version&gt;</code></h2>
+<p><code>hotfix/*</code> branches are used for emergency fixes applied directly to production.</p>
+<h3 id="hotfix-branch-creation">hotfix Branch Creation</h3>
+<p>Create a new <code>hotfix/*</code> branch from <code>main</code> when you need to apply an <strong>urgent bug fix to production</strong> — without waiting for the next planned release.</p>
+<p>Each hotfix branch should reflect the version it will patch, using the format:</p>
+<p><code>hotfix/v&lt;version&gt;</code></p>
+<p>Examples:</p>
+<ul>
+<li><code>hotfix/v1.0.1</code> — fixing a crash in production</li>
+<li><code>hotfix/v2.3.2</code> — patching a security vulnerability</li>
+</ul>
+<p>You will create a <strong>separate <code>hotfix/*</code> branch for each emergency fix</strong>, depending on the version it addresses.</p>
+<p>See <a href="#create-branch">Create Branch</a> for setup steps.<br>
+See <a href="#versioning-convention">Versioning Convention</a> for <code>&lt;version&gt;</code> naming guidelines.</p>
+<h3 id="hotfix-branch-management">hotfix Branch Management</h3>
+<p>Update the code to fix the bug, and commit your changes.<br>
+See <a href="#open-local-directory-in-vs-code">Open Local Directory in VS Code</a> and <a href="#commit--push-to-remote-repository-with-git-extensions">Commit &amp; Push to Remote Repository with Git Extensions</a>.</p>
+<h3 id="hotfix-branch-deletion">hotfix Branch Deletion</h3>
+<p>After verifying the fix:</p>
+<ol>
+<li>Merge the <code>hotfix</code> branch into <code>main</code></li>
+<li>Tag <code>main</code> with <code>v&lt;version&gt;</code> — see <a href="#versioning-convention">Versioning Convention</a> and <a href="#tagging-convention">Tagging Convention</a></li>
+<li>Merge the same <code>hotfix</code> into <code>develop</code></li>
+</ol>
+<p>Then, delete the <code>hotfix/*</code> branch to keep the repo clean.<br>
+Even after deletion, the branch’s history remains visible in Git logs and commit history.<br>
+See <a href="#delete-branch">Delete Branch</a> for more details.</p>
+<hr>
+<h1 id="unsorted-mess">Unsorted Mess</h1>
+<details>
+<summary>Unsorted Mess, Click Here to view unfinished sections.</summary>
+<h3 id="revert-a-commit-safe-undo">Revert a Commit (Safe Undo)</h3>
+<p><strong>Git Extensions:</strong></p>
+<ol>
+<li>View history → Right-click commit → <strong>Revert commit</strong></li>
+</ol>
+<p><strong>VS Code (with GitLens):</strong></p>
+<ol>
+<li>GitLens sidebar → Locate commit → <strong>Revert</strong></li>
+</ol>
+<hr>
+<h3 id="revert-a-merge-commit">Revert a Merge Commit</h3>
+<p><strong>Git Extensions:</strong></p>
+<ol>
+<li>Log view → Right-click merge → Revert</li>
+<li>Choose parent (usually <code>main</code>/<code>develop</code>)</li>
+</ol>
+<h3 id="optional-advanced-recovery-tools">Optional: Advanced Recovery Tools</h3>
+<p><strong>Stash Changes</strong>:</p>
+<ul>
+<li>Git Extensions: Toolbar → <strong>Stash → Stash Changes</strong></li>
+<li>Apply stash when ready</li>
+</ul>
+<p><strong>Recover Deleted Branch</strong>:</p>
+<ul>
+<li>Git Extensions: Use <strong>reflog</strong> to find and restore branch points</li>
+</ul>
+<hr>
+<h3 id="best-practices-gui-compatible">Best Practices (GUI-Compatible)</h3>
+<ul>
+<li>Always push branches after creation</li>
+<li>Clean up merged branches</li>
+<li>Confirm merges with Git Graph (VS Code)</li>
+<li>Regularly visualize with Git Graph or Git Extensions log</li>
+</ul>
+<hr>
+<h2 id="fix-specific-troubleshooting">Fix-Specific Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Authentication Failed</code></td>
+<td>Use GitLab username + token. Clear credentials if needed.</td>
+</tr>
+<tr>
+<td><code>Repository Not Found</code></td>
+<td>Double-check URL and repo permissions.</td>
+</tr>
+<tr>
+<td><code>SSL Certificate Error</code></td>
+<td>Sync system clock or reinstall Git with updated certs.</td>
+</tr>
+<tr>
+<td><code>Git Not Recognized in VS Code</code></td>
+<td>Ensure Git is in your PATH. Reinstall Git if needed.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="understanding-loose-git-objects-and-git-gc">Understanding Loose Git Objects and <code>git gc</code></h3>
+<details>
+<summary>Click to expand</summary>
+<h4 id="what-are-loose-objects">What are Loose Objects?</h4>
+<ul>
+<li>Git stores commits and data as objects</li>
+<li>Objects can be stored as loose (individual) or packed (batched)</li>
+</ul>
+<h4 id="why-this-matters">Why This Matters</h4>
+<p>Too many loose objects can degrade performance</p>
+<h4 id="what-git-gc-does">What <code>git gc</code> Does</h4>
+<ul>
+<li>Compresses loose objects</li>
+<li>Deletes unreachable refs</li>
+<li>Frees up disk space</li>
+</ul>
+<h4 id="run-the-cleanup">Run the Cleanup</h4>
+<pre class="hljs"><code><div>git gc
+</div></code></pre>
+</details>
+<br>
+<h3 id="error-%22revision-is-not-visible-in-the-revision-grid%22">Error: &quot;Revision is not visible in the revision grid&quot;</h3>
+<p><img src="image-62.png" alt="alt text"></p>
+<details>
+<summary>Clear all Filters, click to expand</summary>
+<p>This error means the commit exists, but Git Extensions is hiding it due to filters.</p>
+<p><strong>Solution:</strong>
+<br> <img src="image-63.png" alt="alt text"></p>
+<ol>
+<li>Clear the <code>Filter:</code> box (top right of the Git Extensions window)</li>
+<li>Set <code>Branches:</code> dropdown to <code>All branches</code></li>
+<li>Click the funnel icon (🔽) on the far left → select <strong>&quot;Show all revisions&quot;</strong></li>
+<li>If needed, go to <code>Repository &gt; Rescan</code> or restart Git Extensions</li>
+</ol>
+<p>The commit should now appear in the revision graph.</p>
+</details>
+</details>
+<hr>
+<h2 id="resources--references">Resources &amp; References</h2>
+<ul>
+<li><a href="https://docs.gitlab.com">GitLab Docs</a></li>
+<li><a href="https://github.com/gitextensions/gitextensions/wiki">Git Extensions Wiki</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=GitLab.gitlab-workflow">VS Code GitLab Extension</a></li>
+<li><a href="https://github.com/git-ecosystem/git-credential-manager">Git Credential Manager</a></li>
+</ul>
+<hr>
+
+</body>
+</html>
